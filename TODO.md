@@ -1,5 +1,7 @@
 # Assignment tasks
 
+- [x] Add README instructions for cloning, opening and updating on Windows and Mac.
+
 - [x] Implement exact decay, relative action changes and stamina validation.
 - [x] Reuse separate sprite artwork and animate happy/sad boundaries.
 - [x] Run logic and real browser checks.

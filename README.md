@@ -2,6 +2,37 @@
 
 An offline JavaScript virtual pet assignment. Open `index.html` in Chrome, Edge or Safari. No installation or internet is required after downloading the project.
 
+## Clone and open
+
+Git must be installed. Open your terminal in the folder where you want to download the game.
+
+```bash
+git clone --depth 1 https://github.com/Zeref538/Monster-Simulator.git
+cd Monster-Simulator
+```
+
+Windows PowerShell:
+
+```powershell
+Start-Process .\index.html
+```
+
+Mac Terminal:
+
+```bash
+open index.html
+```
+
+You can also double-click `index.html`. No Unity editor or package installation is needed to play.
+
+To update an existing copy, run this inside the `Monster-Simulator` folder, then refresh the browser:
+
+```bash
+git pull
+```
+
+## Game rules
+
 Happiness is capped at 100 and decreases by exactly 0.01 once per second. Play adds 0.5 and Study subtracts 0.5. Both spend 10 stamina. Eat adds 20 stamina and 5 happiness; Sleep restores stamina to 100. The assignment did not specify food amounts or stamina costs, so those values are explicit choices.
 
 Play and Study work at stamina 20 but lock below 20. Sleep works only below 20. Happiness exactly 100 shows the happy animation; 50 or below shows sad. The next passive tick takes 100 to 99.99, so the happy state correctly ends then. Mood animations take priority over action animations.
