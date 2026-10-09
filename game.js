@@ -16,7 +16,7 @@ function render() {
   document.body.dataset.mood = monster.mood;
   byId('play').disabled = byId('study').disabled = !monster.canWork;
   byId('sleep').disabled = !monster.canSleep;
-  byId('restriction').textContent = monster.canSleep ? 'Stamina below 20: Play and Study locked. Sleep unlocked.' : 'Sleep locked: stamina must be below 20.';
+  byId('restriction').textContent = monster.canSleep ? 'Too tired to play or study. Ready for a nap.' : 'A little play, a little care.';
 }
 document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => {
   const action = button.dataset.action;
@@ -29,7 +29,7 @@ document.querySelectorAll('[data-action]').forEach(button => button.addEventList
 document.querySelectorAll('[data-scenario]').forEach(button => button.addEventListener('click', () => {
   const values = {normal:[75,100],happy:[99.5,100],sad:[50.5,100],tired:[75,20]}[button.dataset.scenario];
   monster = new Monster(...values); nextTick = performance.now() + 1000; actionUntil = 0;
-  byId('bubble').textContent = 'Demo starting point loaded. Real rules remain active.';
+  byId('bubble').textContent = {normal:'Hi! Want to play?', happy:'One more game?', sad:'Keep me company?', tired:'I could use a little rest.'}[button.dataset.scenario];
   render();
 }));
 let lastImage = '';

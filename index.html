@@ -6,15 +6,15 @@
 <label>Happiness <strong id="happiness">75.00 / 100</strong><span class="meter-art happiness-art"><img class="meter-fill" src="assets/happiness_fill.png" alt=""><img class="meter-frame" src="assets/happiness_frame.png" alt=""></span><progress id="happy-bar" max="100" value="75"></progress></label>
 <label>Stamina <strong id="stamina">100 / 100</strong><span class="meter-art stamina-art"><img class="meter-fill" src="assets/energy_fill.png" alt=""><img class="meter-frame" src="assets/energy_frame.png" alt=""></span><progress id="stamina-bar" max="100" value="100"></progress></label>
 </section>
-<section class="room"><span id="mood" class="mood">NORMAL</span><img id="pet" alt="Your animated monster" src="assets/idle_01.png"><p id="bubble" aria-live="polite">Hello! Let's spend some time together.</p></section>
-<p class="decay">Live tick <b id="ticks">0</b> · Happiness decreases by <b>0.01 every second</b></p>
+<section class="room"><span id="mood" class="mood">NORMAL</span><img id="pet" alt="Your animated monster" src="assets/idle_01.png"><p id="bubble" aria-live="polite">Hi! Want to play?</p></section>
+<output id="ticks" hidden>0</output>
 <section class="actions" aria-label="Care actions">
-<button id="play" data-action="play"><img src="assets/play.png" alt=""><b>Play</b><small>+0.50 happy · -10 stamina</small></button>
-<button id="study" data-action="study"><img src="assets/study.png" alt=""><b>Study</b><small>-0.50 happy · -10 stamina</small></button>
-<button id="eat" data-action="eat"><img src="assets/feed.png" alt=""><b>Eat</b><small>+5 happy · +20 stamina</small></button>
-<button id="sleep" data-action="sleep"><img src="assets/sleep.png" alt=""><b>Sleep</b><small>Full stamina · requires below 20</small></button>
+<button id="play" data-action="play"><img src="assets/play.png" alt=""><b>Play</b></button>
+<button id="study" data-action="study"><img src="assets/study.png" alt=""><b>Study</b></button>
+<button id="eat" data-action="eat"><img src="assets/feed.png" alt=""><b>Eat</b></button>
+<button id="sleep" data-action="sleep"><img src="assets/sleep.png" alt=""><b>Sleep</b></button>
 </section>
-<p id="restriction">Sleep unlocks only below 20 stamina.</p>
-<details><summary>Demo starting points</summary><p>These reset the starting values for recording boundary rules. Actions and decay still use the real game logic.</p><div class="demo"><button data-scenario="normal">New pet</button><button data-scenario="happy">Happy boundary: 99.50</button><button data-scenario="sad">Sad boundary: 50.50</button><button data-scenario="tired">Stamina boundary: 20</button></div></details>
-<footer>Happiness: happy at exactly 100, sad at 50 or below.<br>Play and Study require at least 20 stamina.</footer>
+<p id="restriction">A little play, a little care.</p>
+<details><summary>Recording presets</summary><p>These reset the starting values for recording boundary rules. Actions and decay still use the real game logic.</p><div class="demo"><button data-scenario="normal">New pet</button><button data-scenario="happy">Almost happy</button><button data-scenario="sad">A quiet mood</button><button data-scenario="tired">Nearly tired</button></div></details>
+
 </main><script src="model.js"></script><script src="anchors.js"></script><script src="game.js"></script></body></html>

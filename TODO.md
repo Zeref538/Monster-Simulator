@@ -15,3 +15,5 @@
 - [x] Switch the room background to the existing backyard artwork.
 
 - [x] Preserve artwork aspect ratios, including the speech bubble; crop the backyard without stretching.
+
+- [x] Remove action amount captions and visible decay instructions; polish the game layout.
