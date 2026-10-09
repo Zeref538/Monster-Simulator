@@ -11,3 +11,5 @@
 - [x] Center the pup on its body instead of the full tail-inclusive frame.
 
 - [x] Center speech text in the bubble panel while excluding its tail and paw icon.
+
+- [x] Switch the room background to the existing backyard artwork.

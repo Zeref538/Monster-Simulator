@@ -6,7 +6,7 @@ Happiness is capped at 100 and decreases by exactly 0.01 once per second. Play a
 
 Play and Study work at stamina 20 but lock below 20. Sleep works only below 20. Happiness exactly 100 shows the happy animation; 50 or below shows sad. The next passive tick takes 100 to 99.99, so the happy state correctly ends then. Mood animations take priority over action animations.
 
-The model stores integer hundredths to avoid floating-point drift at the exact 100 and 50 boundaries. The layout matches PocketPet: a full-height room, glossy action buttons, floating speech bubble and illustrated meters. Only Happiness, Stamina and the four assignment actions remain. Per-frame body centers keep the tail from shifting the pup sideways. Browser animation frames update sprites at approximately six frames per second. Game ticks are independent of animation speed.
+The model stores integer hundredths to avoid floating-point drift at the exact 100 and 50 boundaries. The layout matches PocketPet: a full-height backyard, glossy action buttons, floating speech bubble and illustrated meters. Only Happiness, Stamina and the four assignment actions remain. Per-frame body centers keep the tail from shifting the pup sideways. Browser animation frames update sprites at approximately six frames per second. Game ticks are independent of animation speed.
 
 Run logic tests with `npm test` using Node.js. Demo starting points are clearly labelled and reset the initial values only; they never change the rules or decay rate. Reload starts a new pet. There is no saved progress.
 
