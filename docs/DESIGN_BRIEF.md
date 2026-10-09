@@ -1,5 +1,5 @@
 # Interface
 
-Keep the existing pup artwork and warm bedroom. Two numeric meters and four labelled actions make state changes visible. Disabled buttons stay visible; status text explains why they lock.
+Preserve PocketPet's full-height bedroom, matching glossy buttons, illustrated meters and floating speech bubble. The assignment needs two meters and four actions; these replace the eight-action care layout.
 
-The layout uses two action columns on phones and four on desktops. Keyboard focus is visible.
+Numeric values and validation text remain visible. Disabled buttons stay in place with reduced opacity. Per-frame body anchors ignore the tail width.

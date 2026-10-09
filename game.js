@@ -9,6 +9,8 @@ function render() {
   byId('stamina').textContent = monster.stamina + ' / 100';
   byId('happy-bar').value = monster.happiness;
   byId('stamina-bar').value = monster.stamina;
+  document.querySelector('.happiness-art .meter-fill').style.clipPath = 'inset(0 ' + (100-monster.happiness) + '% 0 0)';
+  document.querySelector('.stamina-art .meter-fill').style.clipPath = 'inset(0 ' + (100-monster.stamina) + '% 0 0)';
   byId('ticks').textContent = monster.ticks;
   byId('mood').textContent = monster.mood.toUpperCase();
   document.body.dataset.mood = monster.mood;
@@ -31,6 +33,16 @@ document.querySelectorAll('[data-scenario]').forEach(button => button.addEventLi
   render();
 }));
 let lastImage = '';
+function centerBody() {
+  const image = byId('pet');
+  if (!image.naturalWidth) return;
+  const filename = image.src.split('/').pop();
+  const center = BODY_CENTERS[filename] ?? 0.5;
+  const renderedWidth = Math.min(image.clientWidth, image.clientHeight * image.naturalWidth / image.naturalHeight);
+  image.style.marginLeft = ((0.5-center)*renderedWidth) + 'px';
+}
+byId('pet').addEventListener('load', centerBody);
+window.addEventListener('resize', centerBody);
 function frame(now) {
   while (now >= nextTick) { monster.tick(); nextTick += 1000; render(); }
   const state = monster.mood === 'happy' ? 'happy' : monster.mood === 'sad' ? 'sad' : now < actionUntil ? actionAnimation : 'idle';
