@@ -1,3 +1,18 @@
-node_modules/
-recordings/
-.env
+Library/
+Temp/
+Logs/
+UserSettings/
+obj/
+*.csproj
+*.sln
+.DS_Store
+.vscode/
+*.slnx
+Assets/Resources/PerformanceTestRunInfo.json*
+Assets/Resources/PerformanceTestRunSettings.json*
+Assets/Settings/Build Profiles/
+Assets/Settings/Build Profiles.meta
+
+Tests/bin/
+Tests/obj/
+!Tests/Rules.csproj

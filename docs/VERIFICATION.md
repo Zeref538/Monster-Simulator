@@ -1,9 +1,8 @@
-# Verification, 2026-10-09
+# Verification
 
-All six Node logic tests passed. They cover exact tick decay, Play/Study changes, happy/sad boundaries, stamina validation at 20 and below, Sleep, Eat, clamps and invalid input.
+The shared C# MonsterState passed 14 assertions under Unity's bundled compiler and Mono runtime. The .NET 8 runner passed the same 14 assertions. Checks cover exact passive decay, relative Play/Study changes, 100 and 50 mood boundaries, stamina validation at 20 and below, blocked actions, Sleep, Eat, clamping and invalid actions.
 
-A real Chromium browser opened the offline file. At two ticks happiness changed from 75.00 to 74.98. Play at 99.50 rendered HAPPY at 100.00 and a loaded happy sprite; the next tick rendered NORMAL at 99.99. Study at 50.50 rendered SAD at 50.00 and a loaded sad sprite.
+The scene has four MonsterSimulator.Act calls and no old fixed-value bar setters. The three earlier scripts match PocketPet-Care byte for byte. No editor helper scripts are included in Assets.
 
-At stamina 20, Study was enabled and Sleep disabled. Study spent 10 stamina, locking both work buttons and unlocking Sleep. Sleep restored 100 and locked itself. Eat increased both values. No browser errors occurred.
+Unity 6000.5.10f1 compiled Assembly-CSharp successfully. At 405 x 720 in Play mode, all four actions were clicked successfully. Happiness decayed, Play used 10 stamina, eight Study clicks took stamina from 90 to 10 and disabled Play/Study, and Sleep restored 100 and disabled itself. Eat increased happiness, and each action changed the sprite and speech. The console showed zero errors. Happy/Sad boundary logic passed the shared tests; their full animation cycles were not separately captured. Mac import and builds are untested. No executable is being produced; the deliverable is full Unity source.
 
-Screenshots were captured at widths 375 and 1440 with no horizontal overflow. Video recording and Google Drive upload belong to John, at his request. No Unity project or executable is included: this assignment uses standalone JavaScript.

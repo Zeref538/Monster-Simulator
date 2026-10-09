@@ -1,8 +1,11 @@
-name: Rules
+name: CSharp rules
 on: [push, pull_request]
 jobs:
-  test:
+  rules:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - run: node --test tests/*.test.cjs
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet run --project Tests/Rules.csproj

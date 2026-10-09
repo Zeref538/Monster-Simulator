@@ -1,5 +1,5 @@
-# Approach
+# Unity approach
 
-A pure state model validates actions before changing values; the interface renders that model. Integer hundredths preserve exact mood boundaries. One tick per second changes happiness by 0.01.
+Reuse the existing portrait scene and serialized assets. One runtime script contains the pure state class and MonoBehaviour UI controller. The old fixed-value button events are replaced with validated relative actions.
 
-A Unity implementation would require new gameplay scripts and an editor import; standalone JavaScript was selected under this assignment's language-choice instruction to reduce download and setup time.
+Unity replaces the browser implementation at John's request. No editor builder script is included.

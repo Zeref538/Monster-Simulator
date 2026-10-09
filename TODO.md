@@ -1,21 +1,11 @@
-# Assignment tasks
+# Unity assignment
 
-- [x] Add README instructions for cloning, opening and updating on Windows and Mac.
+- [x] Replace the browser source with a complete Unity 6000.5.10f1 project.
+- [x] Wire the four required actions and two live meters.
+- [x] Implement exact decay, threshold animations and stamina validation.
+- [x] Preserve the backyard, artwork proportions and body centering.
+- [x] Pass 14 C# logic assertions.
+- [x] Check Unity compilation and Play mode.
+- [x] Publish complete Unity source and updated clone instructions.
+- [ ] John: record MARTINEZ_MONSTER.mp4 and upload it to Google Drive.
 
-- [x] Implement exact decay, relative action changes and stamina validation.
-- [x] Reuse separate sprite artwork and animate happy/sad boundaries.
-- [x] Run logic and real browser checks.
-- [ ] John: record MARTINEZ_MONSTER.mp4 covering all rubric rules.
-- [x] Publish complete source download.
-- [ ] John: upload the recorded video to Google Drive.
-
-- [x] Match PocketPet layout and artwork for the four-action assignment.
-- [x] Center the pup on its body instead of the full tail-inclusive frame.
-
-- [x] Center speech text in the bubble panel while excluding its tail and paw icon.
-
-- [x] Switch the room background to the existing backyard artwork.
-
-- [x] Preserve artwork aspect ratios, including the speech bubble; crop the backyard without stretching.
-
-- [x] Remove action amount captions and visible decay instructions; polish the game layout.

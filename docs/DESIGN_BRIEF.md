@@ -1,7 +1,3 @@
-# Interface
+# Unity interface
 
-Preserve PocketPet's full-height backyard, matching glossy buttons, illustrated meters and floating speech bubble. The assignment needs two meters and four actions; these replace the eight-action care layout.
-
-Numeric values and validation text remain visible. Disabled buttons stay in place with reduced opacity. Per-frame body anchors ignore the tail width.
-
-The game surface shows action names and numeric meters without change-amount captions or visible decay instructions. Recording presets stay collapsed during normal play.
+Keep the PocketPet-Care 2D backyard and portrait Canvas. Show only Happiness, Stamina and four matching action buttons. Preserve sprite proportions, body centering and centered speech. Do not show change-amount captions.

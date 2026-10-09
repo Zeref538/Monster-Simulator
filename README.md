@@ -1,54 +1,47 @@
-# Monster Simulator
+# Monster Simulator: Unity 2D
 
-An offline JavaScript virtual pet assignment. Open `index.html` in Chrome, Edge or Safari. No installation or internet is required after downloading the project.
+A complete Unity 6000.5.10f1 project using PocketPet-Care's portrait layout, backyard, matching action buttons and original artwork. This replaces the earlier browser version.
 
-## Clone and open
-
-Git must be installed. Open your terminal in the folder where you want to download the game.
+## Clone
 
 ```bash
 git clone --depth 1 https://github.com/Zeref538/Monster-Simulator.git
 cd Monster-Simulator
 ```
 
-Windows PowerShell:
+In Unity Hub, add this folder as a project and open it with 6000.5.10f1. Open `Assets/Scenes/SampleScene.unity`, select a 9:16 Game view and press Play. The folder contains Assets, Packages and ProjectSettings. No executable is needed.
+
+On this Windows PC, you can launch the editor from the project folder:
 
 ```powershell
-Start-Process .\index.html
+& 'C:\Program Files\Unity\Hub\Editor\6000.5.10f1\Editor\Unity.exe' -projectPath "$PWD"
 ```
 
-Mac Terminal:
+To update your copy, close Unity and run `git pull` inside this folder, then reopen the project. Mac editor import and builds have not been tested.
 
-```bash
-open index.html
-```
+## Rules
 
-You can also double-click `index.html`. No Unity editor or package installation is needed to play.
+Happiness decreases by exactly 0.01 once per second. Play adds 0.5, Study subtracts 0.5, and both spend 10 stamina. Eat adds 5 happiness and 20 stamina. Sleep restores stamina to 100. Food gains and stamina costs were not specified by the assignment, so those values are explicit choices.
 
-To update an existing copy, run this inside the `Monster-Simulator` folder, then refresh the browser:
+Play and Study are blocked below 20 stamina. Sleep is blocked at 20 or above. Happy plays at exactly 100 happiness; Sad plays at 50 or below. Mood states override action animations. Values are clamped from 0 to 100. Integer hundredths avoid rounding errors at the mood boundaries.
 
-```bash
-git pull
-```
-
-## Game rules
-
-Happiness is capped at 100 and decreases by exactly 0.01 once per second. Play adds 0.5 and Study subtracts 0.5. Both spend 10 stamina. Eat adds 20 stamina and 5 happiness; Sleep restores stamina to 100. The assignment did not specify food amounts or stamina costs, so those values are explicit choices.
-
-Play and Study work at stamina 20 but lock below 20. Sleep works only below 20. Happiness exactly 100 shows the happy animation; 50 or below shows sad. The next passive tick takes 100 to 99.99, so the happy state correctly ends then. Mood animations take priority over action animations.
-
-The model stores integer hundredths to avoid floating-point drift at the exact 100 and 50 boundaries. The layout matches PocketPet: a full-height backyard, glossy action buttons, floating speech bubble and illustrated meters. Only Happiness, Stamina and the four assignment actions remain. Per-frame body centers keep the tail from shifting the pup sideways. Browser animation frames update sprites at approximately six frames per second. Game ticks are independent of animation speed.
-
-Run logic tests with `npm test` using Node.js. Recording presets are clearly labelled and reset the initial values only; they never change the rules or decay rate. Reload starts a new pet. There is no saved progress.
-
-This assignment explicitly requests a program in a language of choice; it uses its own JavaScript source instead of the previous Unity assignment's fixed scripts. The previous Unity projects are untouched. Artwork is reused from the separate PocketPet-sprites repository.
-
-![Phone game view](docs/img/game-375.png)
+The new gameplay source is `Assets/Scripts/MonsterSimulator.cs`, authorized for this program-writing assignment. The earlier supplied scripts are preserved unchanged. Artwork stays separately available in PocketPet-sprites. No helper or editor scripts are included in Assets.
 
 ## Recording
 
-Open Recording presets during your recording. Show New pet for two seconds to prove 75.00 becomes 74.98. Choose Almost happy and immediately press Play to show 100.00 and HAPPY before the next tick. Choose A quiet mood and immediately press Study to show 50.00 and SAD. Choose Nearly tired to show Sleep locked at 20; press Study to show stamina 10, work locked and Sleep unlocked. Press Sleep to show stamina 100 and Sleep locked again. All scenarios use the normal action validation.
+John records the video. During Play mode, select Canvas and open the Monster Simulator component's three-dot menu. Under Recording presets, use Almost happy, A quiet mood or Nearly tired. These change initial state only; action validation and tick decay remain active.
 
-Record and name your video `MARTINEZ_MONSTER.mp4`.
+Show passive decay, then Eat from Almost happy to reach 100. Happy lasts until the next decay tick. Study from A quiet mood reaches 50 or below. Nearly tired starts at 20: Sleep is locked. Study takes stamina below 20, locking Play/Study and unlocking Sleep. Sleep restores 100 and locks itself again.
 
-Submission: the full source ZIP plus `MARTINEZ_MONSTER.mp4`. The video must be uploaded to Google Drive for the course; a GitHub video download is not a Drive submission.
+Name the recording `MARTINEZ_MONSTER.mp4` and upload it to Google Drive. The presets are labelled recording aids, not automatic gameplay.
+
+## Tests
+
+With the .NET 8 SDK installed:
+
+```bash
+dotnet run --project Tests/Rules.csproj
+```
+
+The runner tests the same C# state class used by the Unity game. See docs/VERIFICATION.md for measured checks.
+
