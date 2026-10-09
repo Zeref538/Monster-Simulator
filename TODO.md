@@ -13,3 +13,5 @@
 - [x] Center speech text in the bubble panel while excluding its tail and paw icon.
 
 - [x] Switch the room background to the existing backyard artwork.
+
+- [x] Preserve artwork aspect ratios, including the speech bubble; crop the backyard without stretching.

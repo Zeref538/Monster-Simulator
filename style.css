@@ -5,3 +5,5 @@ details[open]{bottom:auto;top:43%;max-height:23%;overflow:auto}
 #pet{top:28%;height:33%}.decay{top:auto;bottom:270px}.actions small{background:#fff4e8e8;color:#443039;text-shadow:none;border-radius:6px;padding:2px;font-size:9px}#bubble{padding-left:78px}
 
 #bubble{padding-top:12px;padding-bottom:26px;text-align:center;justify-content:center;align-items:center;overflow-wrap:anywhere}
+
+.room{--bubble-height:min(34.406vw,165.151px)}header{text-align:left;padding-left:4%}h1{font-size:15px}.mood{top:12px;left:auto;right:4%;transform:none}#bubble{top:20%;height:auto;min-height:0;aspect-ratio:271/126;background-size:contain;padding:0 4.5% 4.5% 20.7%}#pet{top:calc(20% + var(--bubble-height));height:calc(80% - var(--bubble-height) - 310px);min-height:120px;object-fit:contain}.meter-fill{object-fit:contain}
