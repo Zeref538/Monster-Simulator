@@ -3,3 +3,5 @@
 details[open]{bottom:auto;top:43%;max-height:23%;overflow:auto}
 
 #pet{top:28%;height:33%}.decay{top:auto;bottom:270px}.actions small{background:#fff4e8e8;color:#443039;text-shadow:none;border-radius:6px;padding:2px;font-size:9px}#bubble{padding-left:78px}
+
+#bubble{padding-top:12px;padding-bottom:26px;text-align:center;justify-content:center;align-items:center;overflow-wrap:anywhere}
