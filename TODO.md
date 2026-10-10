@@ -15,3 +15,7 @@
 - [x] Keep a 9:16 camera and UI viewport in wide windows.
 - [x] Verify the updated C# compilation and publish the layout patch.
 - [ ] John: reopen SampleScene and check the larger phone layout before recording.
+
+- [x] Tighten phone composition, enlarge action art and include initial status numbers.
+- [x] Verify and publish the composition correction.
+- [x] Show whole-number status values while preserving fractional game logic.

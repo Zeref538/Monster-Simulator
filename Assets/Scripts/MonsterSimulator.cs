@@ -90,7 +90,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     {
         happinessBar.fillAmount = State.Happiness / 100f;
         staminaBar.fillAmount = State.Stamina / 100f;
-        happinessText.text = "Happiness\n" + State.Happiness.ToString("F2") + " / 100";
+        happinessText.text = "Happiness\n" + ((int)State.Happiness).ToString() + " / 100";
         staminaText.text = "Stamina\n" + State.Stamina + " / 100";
         playButton.interactable = studyButton.interactable = State.CanWork;
         sleepButton.interactable = State.CanSleep;
