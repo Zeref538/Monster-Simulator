@@ -52,4 +52,4 @@ The display truncates Happiness to a whole number. Its internal value still deca
 
 Whole-number values are centered inside the colored meters. Happiness and Stamina headings are above their meters.
 
-Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show a brief refusal with little hops, head tilts and a pout and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.
+Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show a grounded refusal with head tilts and an expressive face and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.

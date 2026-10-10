@@ -36,3 +36,6 @@
 - [x] Increase the playing pup uniformly by 20 percent and preserve ground position.
 
 - [x] Preserve pet state across script reloads and initialize safely when enabling.
+
+- [x] Keep refusal grounded without hopping or scale pulses.
+- [x] Replace crouched Play frames with upright normal-body frames and a gentle rock.
