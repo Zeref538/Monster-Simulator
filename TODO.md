@@ -82,3 +82,15 @@
 - [x] Correct upside-down Android orientation to upright portrait.
 - [x] Add puppy launcher icon and rebuild signed APK.
 - [ ] Confirm updated APK orientation and icon on John's phone.
+
+- [x] Adapt camera and safe controls to full phone screen without stretching sprites.
+- [x] Add local saves, sound settings, pause/resume and confirmed new-puppy reset.
+- [x] Add tap-to-tickle without changing assignment state rules.
+- [x] Show 100 immediately when happiness reaches its exact maximum.
+- [x] Build replacement APK and verify signature, manifest and archive integrity.
+
+## Zeref Tasks
+
+- [ ] Install v2.2.0 over the previous APK and check fullscreen layout on the phone.
+- [ ] Check tap-to-tickle, Menu sound toggles and progress after closing/reopening.
+- [ ] Confirm New puppy cancellation, all four assignment actions and submit the APK.

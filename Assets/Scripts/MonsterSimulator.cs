@@ -61,14 +61,31 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     float clock, actionUntil, refusalUntil;
     int actionMood;
     [UnityEngine.SerializeField] int lastStateMood = -1;
-    UnityEngine.Vector3 basePosition, baseScale;
-    UnityEngine.Quaternion baseRotation;
-    UnityEngine.Camera view;
+    [UnityEngine.SerializeField] UnityEngine.Vector3 basePosition, baseScale;
+    [UnityEngine.SerializeField] UnityEngine.Quaternion baseRotation;
+    [UnityEngine.SerializeField] UnityEngine.Camera view;
     int viewWidth, viewHeight;
+    UnityEngine.Rect lastSafeArea;
+    [UnityEngine.SerializeField] UnityEngine.RectTransform safeRoot;
+    [UnityEngine.SerializeField] UnityEngine.GameObject settingsPanel;
+    [UnityEngine.SerializeField] UnityEngine.UI.Text musicSetting, soundSetting, resetSetting, menuDescription;
+    bool menuOpen, appPaused, confirmingReset, systemPaused;
+    bool appFocused = true;
+    bool skipResumeFrame;
+    bool musicEnabled = true, soundEnabled = true;
+    float tickleUntil, nextSave;
+    bool SaveEnabled => !UnityEngine.Application.isEditor &&
+        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SampleScene";
 
     void Awake()
     {
         State = new MonsterState(startingHappinessHundredths, startingStamina);
+        if (SaveEnabled && UnityEngine.PlayerPrefs.GetInt("pet.saved", 0) == 1)
+            State = new MonsterState(UnityEngine.PlayerPrefs.GetInt("pet.happiness", 7500),
+                UnityEngine.PlayerPrefs.GetInt("pet.stamina", 100));
+        musicEnabled = UnityEngine.PlayerPrefs.GetInt("pet.music", 1) == 1;
+        soundEnabled = UnityEngine.PlayerPrefs.GetInt("pet.sound", 1) == 1;
+        if (SaveEnabled) clock = UnityEngine.Mathf.Clamp(UnityEngine.PlayerPrefs.GetFloat("pet.clock", 0), 0, 0.999f);
         basePosition = pet.transform.localPosition;
         baseScale = pet.transform.localScale;
         baseRotation = pet.transform.localRotation;
@@ -92,7 +109,12 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
             var oldChange = happinessText.transform.parent.Find("Stat change " + i);
             if (oldChange != null) UnityEngine.Object.Destroy(oldChange.gameObject);
         }
+        CreateAppMenu();
+        viewWidth = 0;
+        FitPortrait();
+        SetMenu(false);
     }
+    void Start() => ApplyAudioSettings();
     void CreateFoodCrumbs()
     {
         if (foodCrumbs != null) return;
@@ -129,6 +151,12 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     void Update()
     {
         FitPortrait();
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame) SetMenu(!menuOpen);
+        if (appPaused || menuOpen) return;
+        // Android can report a long first frame after returning from the background.
+        if (skipResumeFrame) { skipResumeFrame = false; Refresh(); DrawMeters(); return; }
+        ReadPetTap();
         clock += UnityEngine.Time.unscaledDeltaTime;
         while (clock >= 1f)
         {
@@ -141,20 +169,53 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         shownStamina = UnityEngine.Mathf.MoveTowards(shownStamina, targetStamina,
             staminaSpeed * UnityEngine.Time.unscaledDeltaTime);
         DrawMeters();
+        if (UnityEngine.Time.unscaledTime >= nextSave)
+        {
+            SaveProgress();
+            nextSave = UnityEngine.Time.unscaledTime + 5f;
+        }
     }
     void FitPortrait()
     {
         int width = UnityEngine.Screen.width, height = UnityEngine.Screen.height;
-        if (view == null || height == 0 || (width == viewWidth && height == viewHeight)) return;
+        var safe = UnityEngine.Screen.safeArea;
+        if (view == null || height == 0 || width == 0 ||
+            (width == viewWidth && height == viewHeight && safe == lastSafeArea)) return;
         viewWidth = width; viewHeight = height;
+        lastSafeArea = safe;
         float ratio = (float)width / height;
-        const float portrait = 9f / 16f;
-        float w = ratio > portrait ? portrait / ratio : 1f;
-        float h = ratio < portrait ? ratio / portrait : 1f;
-        view.rect = new UnityEngine.Rect((1f - w) / 2f, (1f - h) / 2f, w, h);
+        view.rect = new UnityEngine.Rect(0, 0, 1, 1);
+        // Keep the puppy's width unchanged; taller phones see more of the yard.
+        view.orthographicSize = 2.8125f / ratio;
+        var background = UnityEngine.GameObject.Find("Background");
+        var renderer = background != null ? background.GetComponent<UnityEngine.SpriteRenderer>() : null;
+        if (renderer != null && renderer.sprite != null)
+        {
+            var size = renderer.sprite.bounds.size;
+            float cover = UnityEngine.Mathf.Max(5.625f / size.x, view.orthographicSize * 2f / size.y);
+            background.transform.localScale = UnityEngine.Vector3.one * cover;
+        }
+        if (safeRoot == null) return;
+        safeRoot.anchorMin = new UnityEngine.Vector2(safe.xMin / width, safe.yMin / height);
+        safeRoot.anchorMax = new UnityEngine.Vector2(safe.xMax / width, safe.yMax / height);
+        safeRoot.offsetMin = safeRoot.offsetMax = UnityEngine.Vector2.zero;
+        float safeWidth = 720f * safe.width / width;
+        float scale = UnityEngine.Mathf.Min(1f, safeWidth / 720f);
+        settingsPanel.transform.GetChild(0).localScale = UnityEngine.Vector3.one * scale;
+        Place(happinessBar.transform.parent as UnityEngine.RectTransform, 0.25f, 1f, 0, -124, 496, 160, 0.62f * scale);
+        Place(staminaBar.transform.parent as UnityEngine.RectTransform, 0.75f, 1f, 0, -124, 496, 160, 0.62f * scale);
+        string[] actions = { "Play", "Study", "Feed", "Sleep" };
+        for (int i = 0; i < actions.Length; i++)
+        {
+            var button = safeRoot.Find(actions[i]);
+            if (button != null) Place(button as UnityEngine.RectTransform, (i + 0.5f) / 4f, 0, 0, 140, 164, 150, scale);
+        }
+        Place(speechBubble.transform as UnityEngine.RectTransform, 0.5f, 0.5f, 0, 305, 420, 195.277f, scale);
+        basePosition.y = 0.2f + (safe.center.y / height - 0.5f) * view.orthographicSize * 2f;
     }
     void LateUpdate()
     {
+        if (appPaused || menuOpen) return;
         bool refusing = UnityEngine.Time.unscaledTime < refusalUntil;
         if (refusing && State.Mood == 0 && beggingSprites != null && beggingSprites.Length > 0)
         {
@@ -167,7 +228,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         if (!eating && foodCrumbs.isPlaying)
             foodCrumbs.Stop(true, UnityEngine.ParticleSystemStopBehavior.StopEmitting);
         var sprite = petSprite.sprite;
-        float lift = 0, tilt = 0;
+        float lift = 0, tilt = UnityEngine.Time.unscaledTime < tickleUntil
+            ? UnityEngine.Mathf.Sin(UnityEngine.Time.unscaledTime * 18f) * 5f : 0;
         pet.transform.localScale = baseScale;
         var turn = UnityEngine.Quaternion.Euler(0, 0, tilt);
         pet.transform.localRotation = baseRotation * turn;
@@ -192,6 +254,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
 
     void Refresh()
     {
+        if (State.HappinessHundredths == 10000) shownHappiness = 100f;
         // Only the display eases. Validation and mood always use the exact state.
         if (targetHappiness != State.Happiness)
         {
@@ -226,11 +289,13 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         // Do not display 100 happiness after the exact happy state has ended.
         float happinessNumber = State.Happiness < 100f
             ? UnityEngine.Mathf.Min(shownHappiness, 99.99f) : shownHappiness;
-        happinessText.text = ((int)happinessNumber).ToString() + " / 100";
+        happinessText.text = (State.HappinessHundredths == 10000 ? 100 : (int)happinessNumber).ToString() + " / 100";
         staminaText.text = ((int)shownStamina).ToString() + " / 100";
     }
     public void Act(int action)
     {
+        if (menuOpen || appPaused) return;
+        tickleUntil = 0;
         if (!State.Act(action))
         {
             if (action == 0 || action == 1 || action == 3)
@@ -250,6 +315,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         foreach (var source in actionMusic) source.Stop();
         if (action < actionMusic.Length) actionMusic[action].Play();
         Refresh();
+        SaveProgress();
     }
     public void ResetDemo(int preset)
     {
@@ -262,6 +328,201 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];
         Refresh();
+    }
+    void SaveProgress()
+    {
+        if (!SaveEnabled || State == null) return;
+        UnityEngine.PlayerPrefs.SetInt("pet.saved", 1);
+        UnityEngine.PlayerPrefs.SetInt("pet.happiness", State.HappinessHundredths);
+        UnityEngine.PlayerPrefs.SetInt("pet.stamina", State.Stamina);
+        UnityEngine.PlayerPrefs.SetFloat("pet.clock", clock);
+        UnityEngine.PlayerPrefs.Save();
+    }
+    void OnApplicationPause(bool paused)
+    {
+        systemPaused = paused;
+        skipResumeFrame = true;
+        appPaused = systemPaused || !appFocused;
+        if (paused) SaveProgress();
+        SetPausedAudioAndAnimation();
+    }
+    void OnApplicationFocus(bool focused)
+    {
+        appFocused = focused;
+        skipResumeFrame = true;
+        appPaused = systemPaused || !appFocused;
+        if (!focused) SaveProgress();
+        SetPausedAudioAndAnimation();
+    }
+    void OnApplicationQuit() => SaveProgress();
+    void SetPausedAudioAndAnimation()
+    {
+        if (pet != null) pet.speed = appPaused || menuOpen ? 0 : 1;
+        UnityEngine.AudioListener.pause = appPaused || menuOpen;
+    }
+    void SetMenu(bool open)
+    {
+        menuOpen = open;
+        skipResumeFrame = true;
+        confirmingReset = false;
+        if (settingsPanel != null) settingsPanel.SetActive(open);
+        if (open) SaveProgress();
+        UpdateMenuLabels();
+        SetPausedAudioAndAnimation();
+    }
+    void ApplyAudioSettings()
+    {
+        foreach (var source in UnityEngine.Object.FindObjectsByType<UnityEngine.AudioSource>())
+            source.mute = source.loop ? !musicEnabled : !soundEnabled;
+        UnityEngine.PlayerPrefs.SetInt("pet.music", musicEnabled ? 1 : 0);
+        UnityEngine.PlayerPrefs.SetInt("pet.sound", soundEnabled ? 1 : 0);
+        UnityEngine.PlayerPrefs.Save();
+        UpdateMenuLabels();
+    }
+    void UpdateMenuLabels()
+    {
+        if (musicSetting == null) return;
+        musicSetting.text = "Music: " + (musicEnabled ? "On" : "Off");
+        soundSetting.text = "Sound effects: " + (soundEnabled ? "On" : "Off");
+        resetSetting.text = confirmingReset ? "Yes, start fresh" : "New puppy";
+        menuDescription.text = confirmingReset ? "Start fresh? This replaces your saved puppy.\nPress Continue to cancel."
+            : "Your puppy is saved on this phone.\nThe game rests while you are away.";
+    }
+    void ReadPetTap()
+    {
+        UnityEngine.Vector2 point;
+        var touch = UnityEngine.InputSystem.Touchscreen.current;
+        var mouse = UnityEngine.InputSystem.Mouse.current;
+        if (touch != null && touch.primaryTouch.press.wasPressedThisFrame) point = touch.primaryTouch.position.ReadValue();
+        else if (mouse != null && mouse.leftButton.wasPressedThisFrame) point = mouse.position.ReadValue();
+        else return;
+        if (UnityEngine.Time.unscaledTime < tickleUntil || view == null) return;
+        var events = UnityEngine.EventSystems.EventSystem.current;
+        if (events != null)
+        {
+            var pointer = new UnityEngine.EventSystems.PointerEventData(events) { position = point };
+            var hits = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+            events.RaycastAll(pointer, hits);
+            if (hits.Count > 0) return;
+        }
+        var world = view.ScreenToWorldPoint(new UnityEngine.Vector3(point.x, point.y, petSprite.transform.position.z - view.transform.position.z));
+        var bounds = petSprite.bounds;
+        if (world.x < bounds.min.x || world.x > bounds.max.x || world.y < bounds.min.y || world.y > bounds.max.y) return;
+        tickleUntil = UnityEngine.Time.unscaledTime + 1.4f;
+        actionUntil = tickleUntil;
+        actionMood = 1;
+        refusalUntil = 0;
+        speech.text = "Hehe! That tickles!";
+        if (actionMusic.Length > 0 && actionMusic[0] != null && actionMusic[0].clip != null)
+            actionMusic[0].PlayOneShot(actionMusic[0].clip, 0.5f);
+        Refresh();
+    }
+    UnityEngine.RectTransform AppRect(string name, UnityEngine.Transform parent)
+    {
+        var item = new UnityEngine.GameObject(name, typeof(UnityEngine.RectTransform));
+        item.layer = 5;
+        var rect = item.GetComponent<UnityEngine.RectTransform>();
+        rect.SetParent(parent, false);
+        return rect;
+    }
+    void Place(UnityEngine.RectTransform rect, float x, float y, float dx, float dy, float width, float height, float scale = 1)
+    {
+        rect.SetParent(safeRoot, false);
+        rect.anchorMin = rect.anchorMax = new UnityEngine.Vector2(x, y);
+        rect.pivot = new UnityEngine.Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = new UnityEngine.Vector2(dx, dy);
+        rect.sizeDelta = new UnityEngine.Vector2(width, height);
+        rect.localScale = UnityEngine.Vector3.one * scale;
+    }
+    UnityEngine.UI.Text AppText(string name, UnityEngine.Transform parent, string text, float y, int fontSize, float width = 480)
+    {
+        var rect = AppRect(name, parent);
+        rect.anchorMin = rect.anchorMax = new UnityEngine.Vector2(0.5f, 0.5f);
+        rect.sizeDelta = new UnityEngine.Vector2(width, 80);
+        rect.anchoredPosition = new UnityEngine.Vector2(0, y);
+        var label = rect.gameObject.AddComponent<UnityEngine.UI.Text>();
+        label.font = speech.font;
+        label.fontSize = fontSize;
+        label.alignment = UnityEngine.TextAnchor.MiddleCenter;
+        label.color = new UnityEngine.Color(0.08f, 0.2f, 0.17f);
+        label.raycastTarget = false;
+        label.text = text;
+        return label;
+    }
+    UnityEngine.UI.Text AppButton(string name, UnityEngine.Transform parent, string text, float y, UnityEngine.Events.UnityAction clicked)
+    {
+        var rect = AppRect(name, parent);
+        rect.anchorMin = rect.anchorMax = new UnityEngine.Vector2(0.5f, 0.5f);
+        rect.sizeDelta = new UnityEngine.Vector2(480, 62);
+        rect.anchoredPosition = new UnityEngine.Vector2(0, y);
+        var image = rect.gameObject.AddComponent<UnityEngine.UI.Image>();
+        image.color = new UnityEngine.Color(0.19f, 0.42f, 0.35f);
+        var button = rect.gameObject.AddComponent<UnityEngine.UI.Button>();
+        button.targetGraphic = image;
+        button.onClick.AddListener(clicked);
+        var label = AppText("Label", rect, text, 0, 28);
+        label.color = UnityEngine.Color.white;
+        return label;
+    }
+    void CreateAppMenu()
+    {
+        var canvas = happinessText.GetComponentInParent<UnityEngine.Canvas>();
+        canvas.GetComponent<UnityEngine.UI.CanvasScaler>().matchWidthOrHeight = 0;
+        if (safeRoot != null) return;
+        safeRoot = AppRect("Phone safe controls", canvas.transform);
+        string[] controls = { "Play", "Study", "Feed", "Sleep" };
+        foreach (var name in controls)
+        {
+            var control = canvas.transform.Find(name);
+            if (control != null) control.SetParent(safeRoot, false);
+        }
+        foreach (var pair in new[] { (happinessText, happinessBar), (staminaText, staminaBar) })
+        {
+            var rect = pair.Item1.rectTransform;
+            rect.SetParent(pair.Item2.transform, false);
+            rect.anchorMin = rect.anchorMax = new UnityEngine.Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = UnityEngine.Vector2.zero;
+            rect.sizeDelta = new UnityEngine.Vector2(300, 68);
+            rect.localScale = UnityEngine.Vector3.one;
+            pair.Item1.fontSize = 36;
+            pair.Item1.alignment = UnityEngine.TextAnchor.MiddleCenter;
+            pair.Item1.raycastTarget = false;
+        }
+        var title = AppText("App title", safeRoot, "Pocket Pup", 0, 26, 350);
+        title.color = UnityEngine.Color.white;
+        title.gameObject.AddComponent<UnityEngine.UI.Outline>().effectDistance = new UnityEngine.Vector2(1, -1);
+        Place(title.rectTransform, 0.5f, 1, -45, -35, 350, 48);
+        var menu = AppButton("Menu", safeRoot, "Menu", 0, () => SetMenu(true));
+        Place(menu.transform.parent as UnityEngine.RectTransform, 1, 1, -68, -35, 104, 48);
+        menu.rectTransform.sizeDelta = new UnityEngine.Vector2(104, 48);
+        menu.fontSize = 24;
+        var panel = AppRect("App settings", safeRoot);
+        panel.anchorMin = UnityEngine.Vector2.zero;
+        panel.anchorMax = UnityEngine.Vector2.one;
+        panel.offsetMin = panel.offsetMax = UnityEngine.Vector2.zero;
+        panel.gameObject.AddComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(0.04f, 0.12f, 0.1f, 0.94f);
+        settingsPanel = panel.gameObject;
+        var card = AppRect("Settings card", panel);
+        card.anchorMin = card.anchorMax = new UnityEngine.Vector2(0.5f, 0.5f);
+        card.sizeDelta = new UnityEngine.Vector2(580, 780);
+        card.gameObject.AddComponent<UnityEngine.UI.Image>().color = new UnityEngine.Color(0.83f, 0.96f, 0.89f);
+        AppText("Settings title", card, "Pocket Pup", 320, 40);
+        menuDescription = AppText("About", card, "", 230, 24);
+        musicSetting = AppButton("Music", card, "", 125, () => { musicEnabled = !musicEnabled; ApplyAudioSettings(); });
+        soundSetting = AppButton("Sounds", card, "", 45, () => { soundEnabled = !soundEnabled; ApplyAudioSettings(); });
+        AppButton("Continue", card, "Continue", -45, () => SetMenu(false));
+        resetSetting = AppButton("New puppy", card, "", -125, () =>
+        {
+            if (!confirmingReset) { confirmingReset = true; UpdateMenuLabels(); return; }
+            ResetDemo(0);
+            SaveProgress();
+            SetMenu(false);
+        });
+        AppButton("Close", card, "Save & close", -215, () => { SaveProgress(); UnityEngine.Application.Quit(); });
+        AppText("Version", card, "Monster Simulator 1.1\nTap your puppy for a tickle!", -315, 22);
+        settingsPanel.SetActive(false);
+        UnityEngine.Screen.fullScreen = true;
+        UnityEngine.Application.targetFrameRate = 60;
     }
     [UnityEngine.ContextMenu("Recording presets/New pet")] void NewPet() => ResetDemo(0);
     [UnityEngine.ContextMenu("Recording presets/Almost happy")] void AlmostHappy() => ResetDemo(1);

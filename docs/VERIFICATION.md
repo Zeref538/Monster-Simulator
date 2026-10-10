@@ -88,3 +88,14 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Added the puppy launcher icon at all Android legacy and round icon sizes. Visually checked the generated 192-pixel launcher resource. Original artwork is also stored in PocketPet-sprites/app/puppy-icon.png.
 - APK size: 41,466,026 bytes. Signature v2 verification passed; all 405 archive entries passed CRC checks. SHA256: 6639B136C25848FCE9B9E7B8CF1A3EDDF7E10C5C090CF2AC4E4E117C28C6B63C.
 - Actual phone orientation and launcher appearance still need John's phone check.
+
+## Full-screen phone app update
+
+- Removed the fixed 9:16 camera viewport. Camera rect is now the full screen; world width stays 5.625 units, with additional vertical room on tall phones. Background scales uniformly to cover the view, and UI uses a width-based canvas and Screen.safeArea. Whole-number labels are reparented to the colored meters.
+- Calculated geometry for four portrait sizes with explicit top/bottom safe-area insets: 1080x1920 (72/48), 1080x2408 (96/48), 1080x2340 (96/48), 720x1600 (64/32). Meter and button widths fit the safe area. Bubble-to-meter clearance is positive in all four cases. These calculations are not phone screenshots.
+- Added main-scene local saves, separate music/effect preferences, a pause menu, reset confirmation, Android Back menu handling and Save & close. The first resumed frame does not advance the tick clock. Demo scenes and editor runs do not load saved stats.
+- Tap detection rejects UI hits before checking puppy bounds. A tap triggers a short grounded wiggle and happy animation for neutral mood, without calling MonsterState.Act or changing stats. Happy/sad mood thresholds retain priority.
+- The slow meter could miss the maximum before the next decay tick. Exact 100 now snaps the happiness display to 100 immediately. The next tick still subtracts exactly one hundredth.
+- Unity 6000.5.10f1 completed the ARM64 release build. All 14 C# rule assertions pass. APK version code 3, version name 1.1, upright portrait. Signature v2 verifies and matches the preceding APK's signing certificate, enabling an in-place update.
+- All 405 archive entries passed CRC checks; native Unity and IL2CPP libraries are present. Size: 41,479,934 bytes. SHA256: 34DF7CA90E7B1651712BE1F5E078AFADD5D996B3AB50387E7E0B635B0CEC69C2.
+- No Android device is connected. Actual fullscreen appearance, touch reactions, settings and persistence still need a phone runtime check.
