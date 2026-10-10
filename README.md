@@ -73,3 +73,15 @@ Actions now play short toy squeaks (Play), page turns (Study), eating crunches (
 The project supports mouse, keyboard, touchscreen and pen. Gamepads are excluded because an attached DualShock device flooded the input queue during recording. Restart Unity after updating input settings. The default 5 MB per-update event limit remains enabled.
 
 The APK build omits recording counters and floating stat-change labels. Status meters still count smoothly toward their values.
+
+## Android APK submission
+
+Download [Monster-Simulator.apk](https://github.com/Zeref538/Monster-Simulator/releases/download/v2.1.0/Monster-Simulator.apk). It requires Android 8.0 or later and an ARM64 phone. Install it, check the four actions and sound, then submit that APK. Phone runtime testing is still pending.
+
+The APK is 41,252,025 bytes. Its signature and archive contents passed verification. It contains only the main gameplay scene.
+
+To rebuild with Unity CLI and Unity 6000.5.10f1 with Android support installed, run this from the project folder:
+
+```powershell
+unity build . --profile Assets/Settings/AndroidAPK.asset --output-path ../builds/Monster-Simulator.apk --android-export-type apk --editor-version 6000.5.10f1 --non-interactive
+```

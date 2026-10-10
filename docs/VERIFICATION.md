@@ -71,3 +71,12 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Passive ticks show measured happiness change in a separate label from action changes. Accepted actions measure both state values before/after validation, including capped gains. Rejected actions return before displaying stat-change feedback.
 - Three reused text labels appear for 0.65 seconds, fade in the final 0.2 seconds and clear on demo reset. Main status meters retain whole numbers. No new scripts or assets are required.
 - Runtime compilation and 14 rule assertions pass. Live popup positions and fading remain unverified.
+
+## Android APK submission, October 10, 2026
+
+- Removed recording counters and floating changes. The four actions and smooth whole-number meters remain. Only SampleScene is enabled in the build profile.
+- Unity 6000.5.10f1 completed the IL2CPP ARM64 release APK build. Output size: 41,252,025 bytes.
+- Android aapt reports com.zeref538.monstersimulator, minimum SDK 26, target SDK 36, portrait orientation and arm64-v8a.
+- Android apksigner verifies the APK Signature Scheme v2 signature with one signer. ZIP CRC verification passed for all 398 entries. AndroidManifest.xml, classes.dex, libunity.so and libil2cpp.so are present.
+- SHA256: DC9730414C7BC277C19ACFE528CDA44250767E517E16AD70AAC59AF3347874EB.
+- No Android device or emulator was connected. Installation, touch input, audio and rendering on a phone remain unverified; John will test the APK on his phone.

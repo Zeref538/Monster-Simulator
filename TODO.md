@@ -75,5 +75,6 @@
 
 - [x] Remove tick counter and floating changes for APK submission.
 - [x] Make SampleScene the only enabled build scene and set Android application identifier.
-- [ ] Install Android build support and compile APK.
-- [ ] Verify APK contents, signature and running game.
+- [x] Install Android build support and compile APK.
+- [x] Verify APK contents and signature.
+- [ ] Install the APK on John's phone and check the running game before submission.
