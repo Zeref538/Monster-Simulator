@@ -48,3 +48,8 @@
 - [x] Add falling food crumbs during Eat.
 - [x] Add twelve expressive reading frames with consistent scale and ground alignment.
 - [ ] Check new Eat and Study visuals in Unity Play mode (app-control connection unavailable).
+
+- [x] Replace pink bow bed with blue paw bed and center sleeping body and bed independently.
+- [x] Add five assignment recording scenes with different starting state values.
+- [x] Document the recording sequence and exact threshold behavior.
+- [ ] Review sleeping alignment and the five demo scenes in Unity Play mode.

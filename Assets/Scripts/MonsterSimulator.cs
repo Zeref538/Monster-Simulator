@@ -54,6 +54,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     [field: UnityEngine.SerializeField]
     public MonsterState State { get; private set; }
     [UnityEngine.SerializeField] UnityEngine.ParticleSystem foodCrumbs;
+    [UnityEngine.SerializeField] UnityEngine.Transform sleepBed;
     float clock, actionUntil, refusalUntil;
     int actionMood;
     UnityEngine.Vector3 basePosition, baseScale;
@@ -78,6 +79,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         // Script reloads do not call Awake again on an existing component.
         if (State == null) Awake();
         CreateFoodCrumbs();
+        if (sleepBed == null) sleepBed = pet.transform.Find("SleepBed");
     }
     void CreateFoodCrumbs()
     {
@@ -158,6 +160,13 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         offset -= turnedGround.x;
         lift = ground.y - turnedGround.y;
         pet.transform.localPosition = basePosition + new UnityEngine.Vector3(offset, lift, 0);
+        // The pet is centered by its body; keep the bed centered in the portrait too.
+        if (sleepBed != null)
+        {
+            var bedPosition = sleepBed.localPosition;
+            bedPosition.x = -offset / baseScale.x;
+            sleepBed.localPosition = bedPosition;
+        }
     }
 
     void Refresh()

@@ -8,6 +8,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/01_Decay_And_Eat.unity
+    guid: 71011ab780cd44d1b21c573eb6c7bf9c
+  - enabled: 1
+    path: Assets/Scenes/02_Happy_100.unity
+    guid: f1720e94bf8444e29dbe30f15ce3b6c4
+  - enabled: 1
+    path: Assets/Scenes/03_Sad_Threshold.unity
+    guid: 72141994dbbf482c94d0c360b9d011d4
+  - enabled: 1
+    path: Assets/Scenes/04_Stamina_Boundary.unity
+    guid: 83fa756a2cbf4a87b7e498eb6f0d590b
+  - enabled: 1
+    path: Assets/Scenes/05_Sleep_Recovery.unity
+    guid: 82dc9c9b135d4ade9c0d00ccfd5367e2
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

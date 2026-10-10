@@ -29,11 +29,19 @@ The new gameplay source is `Assets/Scripts/MonsterSimulator.cs`, authorized for 
 
 ## Recording
 
-John records the video. During Play mode, select Canvas and open the Monster Simulator component's three-dot menu. Under Recording presets, use Almost happy, A quiet mood or Nearly tired. These change initial state only; action validation and tick decay remain active.
+Open a demo scene from `Assets/Scenes` before pressing Play. Stop Play before switching scenes. Each scene has the same phone layout and normal rules; only starting values differ.
 
-Show passive decay, then Eat from Almost happy to reach 100. Happy lasts until the next decay tick. Study from A quiet mood reaches 50 or below. Nearly tired starts at 20: Sleep refuses without restoring stamina. Study takes stamina below 20, making Play/Study refuse and allowing Sleep. Sleep restores 100 and refuses further sleep.
+| Scene | Happiness | Stamina | What to record |
+|---|---:|---:|---|
+| 01_Decay_And_Eat | 75 | 60 | Wait for 75 to display 74 after the first one-second tick, then Eat: both meters rise. |
+| 02_Happy_100 | 100 | 100 | Record before pressing Play to capture the happy pose immediately at 100. Eat can bring it back to 100 after decay. |
+| 03_Sad_Threshold | 50.5 internally | 100 | Click Study once: happiness reaches 50 or below and the sad pose starts. Eat brings it above 50. |
+| 04_Stamina_Boundary | 75 | 20 | Sleep refuses at 20. Play spends 10 stamina; Play and Study then refuse. Sleep restores 100. |
+| 05_Sleep_Recovery | 75 | 10 | Play and Study refuse without changing meters. Sleep restores 100 and shows the centered sleeping pup in his blue bed. |
 
-Name the recording `MARTINEZ_MONSTER.mp4` and upload it to Google Drive. The presets are labelled recording aids, not automatic gameplay.
+Happiness still loses exactly 0.01 per second. The whole-number meter hides fractions; the first scene makes a tick visible immediately. Happy is exactly 100 and lasts only until the next decay tick, so start recording before Play. The sad scene displays 50 initially because numbers are truncated, but internally starts at 50.5; Study crosses the actual threshold.
+
+Forbidden actions stay clickable to show refusal, as requested. Their state changes are blocked, although the rubric asks for visibly locked buttons. Name your video `SURNAME_MONSTER.mp4`, replacing SURNAME with your surname, and upload it to Google Drive.
 
 ## Tests
 
@@ -50,10 +58,10 @@ The phone layout has one bottom row of four matching action buttons. Happiness a
 
 The display truncates Happiness to a whole number. Its internal value still decays by exactly 0.01 per second and changes by 0.5 for Play/Study. A visible 100 therefore means exactly 100, matching the happy-state rule.
 
-Whole-number values are centered inside the colored meters. Happiness and Stamina headings are above their meters.
+Whole-number values are centered inside the colored meters. Heart and lightning icons identify the meters without headings.
 
-Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show a grounded refusal with head tilts and an expressive face and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.
+Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show grounded refusal poses with an expressive face and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.
 
-Play uses a twelve-frame tail-chasing loop. Refusal keeps the normal pose and tilts around the feet instead of switching to differently positioned crying frames.
+Play uses a twelve-frame tail-chasing loop. Refusal uses grounded begging poses without hopping.
 
 High-stamina Sleep requests show six seated begging poses with the bubble "Not yet... please?". Happy/Sad threshold poses retain priority.

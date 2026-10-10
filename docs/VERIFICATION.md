@@ -30,3 +30,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Inspected generated sheet and extracted frame 08 for reading expressions. Updated all 12 body center anchors.
 - Food effect emits seven small golden crumbs per second only while the Eat mood is active, with downward velocity; it stops emitting when the action ends or refusal begins.
 - New effects have not been observed in Unity Play mode: native app-control connection is unavailable.
+
+## Recording scenes and sleep alignment
+
+- Five new scene files preserve the SampleScene layout and references; only starting happiness and stamina differ. Each has a unique scene GUID and a build-settings entry.
+- Blue bed retains its existing sprite GUID, canvas size and aspect ratio. Twelve sleep body anchors exclude the curled tail; runtime offsets the bed independently to the portrait center.
+- Scene starting values: 75/60, 100/100, 50.5/100, 75/20, 75/10. Rule checks still pass; happy lasts until the next normal one-second decay tick.
+- Runtime compilation and static scene reference/value checks passed. Unity Play mode visual review remains unverified because native app control is unavailable.

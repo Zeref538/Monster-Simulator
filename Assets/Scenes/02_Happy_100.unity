@@ -4590,7 +4590,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1a39cb04c686482a85ddad63b7e91a34, type: 3}
   - {fileID: 21300000, guid: e715d278b8294d6caf031b30e5d16c77, type: 3}
   - {fileID: 21300000, guid: 21fc1c0f258e4681a7a41ec542616cbd, type: 3}
-  startingHappinessHundredths: 7500
+  startingHappinessHundredths: 10000
   startingStamina: 100
 --- !u!1 &997020
 GameObject:
