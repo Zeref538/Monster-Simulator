@@ -76,9 +76,9 @@ The APK build omits recording counters and floating stat-change labels. Status m
 
 ## Android APK submission
 
-Download [Monster-Simulator.apk](https://github.com/Zeref538/Monster-Simulator/releases/download/v2.1.0/Monster-Simulator.apk). It requires Android 8.0 or later and an ARM64 phone. Install it, check the four actions and sound, then submit that APK. Phone runtime testing is still pending.
+Download [Monster-Simulator-upright.apk](https://github.com/Zeref538/Monster-Simulator/releases/download/v2.1.1/Monster-Simulator-upright.apk). It requires Android 8.0 or later and an ARM64 phone. This update locks upright portrait and adds a puppy launcher icon. Install it over the previous APK, check the four actions and sound, then submit that APK. Phone runtime testing is still pending.
 
-The APK is 41,252,025 bytes. Its signature and archive contents passed verification. It contains only the main gameplay scene.
+The APK is 41,466,026 bytes. Its signature and archive contents passed verification. It contains only the main gameplay scene.
 
 To rebuild with Unity CLI and Unity 6000.5.10f1 with Android support installed, run this from the project folder:
 

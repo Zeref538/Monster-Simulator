@@ -78,3 +78,7 @@
 - [x] Install Android build support and compile APK.
 - [x] Verify APK contents and signature.
 - [ ] Install the APK on John's phone and check the running game before submission.
+
+- [x] Correct upside-down Android orientation to upright portrait.
+- [x] Add puppy launcher icon and rebuild signed APK.
+- [ ] Confirm updated APK orientation and icon on John's phone.

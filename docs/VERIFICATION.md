@@ -80,3 +80,11 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Android apksigner verifies the APK Signature Scheme v2 signature with one signer. ZIP CRC verification passed for all 398 entries. AndroidManifest.xml, classes.dex, libunity.so and libil2cpp.so are present.
 - SHA256: DC9730414C7BC277C19ACFE528CDA44250767E517E16AD70AAC59AF3347874EB.
 - No Android device or emulator was connected. Installation, touch input, audio and rendering on a phone remain unverified; John will test the APK on his phone.
+
+## Upright portrait and launcher icon update
+
+- The previous APK manifest specified Android reversePortrait (9). Unity's serialized defaultScreenOrientation was 1, which is UIOrientation.PortraitUpsideDown, not upright portrait. Changed it to 0 and disabled upside-down and landscape autorotation options. No gameplay scripts changed.
+- The rebuilt APK manifest specifies portrait (1), version code 2, the same application identifier and signing key. It can update the earlier APK.
+- Added the puppy launcher icon at all Android legacy and round icon sizes. Visually checked the generated 192-pixel launcher resource. Original artwork is also stored in PocketPet-sprites/app/puppy-icon.png.
+- APK size: 41,466,026 bytes. Signature v2 verification passed; all 405 archive entries passed CRC checks. SHA256: 6639B136C25848FCE9B9E7B8CF1A3EDDF7E10C5C090CF2AC4E4E117C28C6B63C.
+- Actual phone orientation and launcher appearance still need John's phone check.
