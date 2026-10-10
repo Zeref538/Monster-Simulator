@@ -53,3 +53,6 @@
 - [x] Add five assignment recording scenes with different starting state values.
 - [x] Document the recording sequence and exact threshold behavior.
 - [ ] Review sleeping alignment and the five demo scenes in Unity Play mode.
+
+- [x] Animate meter fills and whole-number values toward exact state changes over 1.2 seconds.
+- [ ] Check smooth meter motion in Unity Play mode.

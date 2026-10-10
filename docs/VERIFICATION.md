@@ -37,3 +37,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Blue bed retains its existing sprite GUID, canvas size and aspect ratio. Twelve sleep body anchors exclude the curled tail; runtime offsets the bed independently to the portrait center.
 - Scene starting values: 75/60, 100/100, 50.5/100, 75/20, 75/10. Rule checks still pass; happy lasts until the next normal one-second decay tick.
 - Runtime compilation and static scene reference/value checks passed. Unity Play mode visual review remains unverified because native app control is unavailable.
+
+## Smooth status display
+
+- Bars and integer labels use separate displayed values that move toward the exact state, with a 1.2-second duration for each new target. Starting scene values and recording resets appear immediately.
+- The complete MonsterState source is byte-equivalent after newline normalization to the previous commit. All 14 rule assertions pass and runtime code compiles against Unity 6000.5.10f1.
+- State validation and mood continue using actual values, regardless of meter animation. Repeated actions retarget from the currently displayed values.
+- Live meter motion remains unverified because native app control is unavailable.

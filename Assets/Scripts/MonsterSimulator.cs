@@ -55,6 +55,9 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     public MonsterState State { get; private set; }
     [UnityEngine.SerializeField] UnityEngine.ParticleSystem foodCrumbs;
     [UnityEngine.SerializeField] UnityEngine.Transform sleepBed;
+    [UnityEngine.SerializeField] float shownHappiness, shownStamina;
+    [UnityEngine.SerializeField] float targetHappiness, targetStamina;
+    [UnityEngine.SerializeField] float happinessSpeed, staminaSpeed;
     float clock, actionUntil, refusalUntil;
     int actionMood;
     UnityEngine.Vector3 basePosition, baseScale;
@@ -72,6 +75,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         FitPortrait();
         speechBubble.SetActive(true);
         speech.text = "Hi! Want to play?";
+        SnapMeters();
         Refresh();
     }
     void OnEnable()
@@ -120,6 +124,11 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         clock += UnityEngine.Time.unscaledDeltaTime;
         while (clock >= 1f) { State.Tick(); clock -= 1f; }
         Refresh();
+        shownHappiness = UnityEngine.Mathf.MoveTowards(shownHappiness, targetHappiness,
+            happinessSpeed * UnityEngine.Time.unscaledDeltaTime);
+        shownStamina = UnityEngine.Mathf.MoveTowards(shownStamina, targetStamina,
+            staminaSpeed * UnityEngine.Time.unscaledDeltaTime);
+        DrawMeters();
     }
     void FitPortrait()
     {
@@ -171,13 +180,36 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
 
     void Refresh()
     {
-        happinessBar.fillAmount = State.Happiness / 100f;
-        staminaBar.fillAmount = State.Stamina / 100f;
-        happinessText.text = ((int)State.Happiness).ToString() + " / 100";
-        staminaText.text = State.Stamina + " / 100";
+        // Only the display eases. Validation and mood always use the exact state.
+        if (targetHappiness != State.Happiness)
+        {
+            targetHappiness = State.Happiness;
+            happinessSpeed = UnityEngine.Mathf.Abs(targetHappiness - shownHappiness) / 1.2f;
+        }
+        if (targetStamina != State.Stamina)
+        {
+            targetStamina = State.Stamina;
+            staminaSpeed = UnityEngine.Mathf.Abs(targetStamina - shownStamina) / 1.2f;
+        }
         playButton.interactable = studyButton.interactable = sleepButton.interactable = true;
         int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
         if (pet.GetInteger("Mood") != mood) pet.SetInteger("Mood", mood);
+    }
+    void SnapMeters()
+    {
+        shownHappiness = targetHappiness = State.Happiness;
+        shownStamina = targetStamina = State.Stamina;
+        DrawMeters();
+    }
+    void DrawMeters()
+    {
+        happinessBar.fillAmount = shownHappiness / 100f;
+        staminaBar.fillAmount = shownStamina / 100f;
+        // Do not display 100 happiness after the exact happy state has ended.
+        float happinessNumber = State.Happiness < 100f
+            ? UnityEngine.Mathf.Min(shownHappiness, 99.99f) : shownHappiness;
+        happinessText.text = ((int)happinessNumber).ToString() + " / 100";
+        staminaText.text = ((int)shownStamina).ToString() + " / 100";
     }
     public void Act(int action)
     {
@@ -207,6 +239,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         if (preset < 0 || preset >= happiness.Length) return;
         State = new MonsterState(happiness[preset], preset == 3 ? 20 : 100);
         clock = 0; actionUntil = 0; refusalUntil = 0;
+        SnapMeters();
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];
         Refresh();
