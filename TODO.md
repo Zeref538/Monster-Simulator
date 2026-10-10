@@ -34,3 +34,5 @@
 
 - [x] Replace sideways refusal with tiny hops, tilts and an expressive refusal pose.
 - [x] Increase the playing pup uniformly by 20 percent and preserve ground position.
+
+- [x] Preserve pet state across script reloads and initialize safely when enabling.

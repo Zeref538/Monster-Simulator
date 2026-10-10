@@ -1,8 +1,15 @@
 using System;
 
+[Serializable]
 public sealed class MonsterState
 {
+#if UNITY_5_3_OR_NEWER
+    [field: UnityEngine.SerializeField]
+#endif
     public int HappinessHundredths { get; private set; }
+#if UNITY_5_3_OR_NEWER
+    [field: UnityEngine.SerializeField]
+#endif
     public int Stamina { get; private set; }
     public float Happiness => HappinessHundredths / 100f;
     public bool CanWork => Stamina >= 20;
@@ -43,6 +50,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     [UnityEngine.HideInInspector] public float[] bodyCenters;
     public int startingHappinessHundredths = 7500;
     public int startingStamina = 100;
+    [field: UnityEngine.SerializeField]
     public MonsterState State { get; private set; }
     float clock, actionUntil, refusalUntil;
     int actionMood;
@@ -62,6 +70,11 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         speechBubble.SetActive(true);
         speech.text = "Hi! Want to play?";
         Refresh();
+    }
+    void OnEnable()
+    {
+        // Script reloads do not call Awake again on an existing component.
+        if (State == null) Awake();
     }
     void Update()
     {
