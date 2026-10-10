@@ -9,7 +9,7 @@ git clone --depth 1 https://github.com/Zeref538/Monster-Simulator.git
 cd Monster-Simulator
 ```
 
-In Unity Hub, add this folder as a project and open it with 6000.5.10f1. Open `Assets/Scenes/SampleScene.unity`, select a 9:16 Game view (the camera also keeps a portrait viewport in wider windows) and press Play. The folder contains Assets, Packages and ProjectSettings. No executable is needed.
+In Unity Hub, add this folder as a project and open it with 6000.5.10f1. Open `Assets/Scenes/SampleScene.unity`, select a 1080 x 1920 Fixed Resolution Game view (the camera also keeps a portrait viewport in wider windows) and press Play. The folder contains Assets, Packages and ProjectSettings. No executable is needed.
 
 On this Windows PC, you can launch the editor from the project folder:
 

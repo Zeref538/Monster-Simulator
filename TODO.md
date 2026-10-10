@@ -19,3 +19,4 @@
 - [x] Tighten phone composition, enlarge action art and include initial status numbers.
 - [x] Verify and publish the composition correction.
 - [x] Show whole-number status values while preserving fractional game logic.
+- [x] Set the project resolution to 1080 x 1920.
