@@ -44,7 +44,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     public int startingHappinessHundredths = 7500;
     public int startingStamina = 100;
     public MonsterState State { get; private set; }
-    float clock, actionUntil;
+    float clock, actionUntil, refusalUntil;
     int actionMood;
     UnityEngine.Vector3 basePosition;
     UnityEngine.Camera view;
@@ -84,6 +84,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         int index = Array.IndexOf(centeredSprites, sprite);
         float offset = index >= 0 && index < bodyCenters.Length
             ? (0.5f - bodyCenters[index]) * sprite.rect.width / sprite.pixelsPerUnit * pet.transform.localScale.x : 0;
+        if (UnityEngine.Time.unscaledTime < refusalUntil)
+            offset += UnityEngine.Mathf.Sin(UnityEngine.Time.unscaledTime * 24f) * 0.07f;
         pet.transform.localPosition = basePosition + new UnityEngine.Vector3(offset, 0, 0);
     }
     void Refresh()
@@ -92,14 +94,25 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         staminaBar.fillAmount = State.Stamina / 100f;
         happinessText.text = ((int)State.Happiness).ToString() + " / 100";
         staminaText.text = State.Stamina + " / 100";
-        playButton.interactable = studyButton.interactable = State.CanWork;
-        sleepButton.interactable = State.CanSleep;
+        playButton.interactable = studyButton.interactable = sleepButton.interactable = true;
         int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
         if (pet.GetInteger("Mood") != mood) pet.SetInteger("Mood", mood);
     }
     public void Act(int action)
     {
-        if (!State.Act(action)) return;
+        if (!State.Act(action))
+        {
+            if (action == 0 || action == 1 || action == 3)
+            {
+                refusalUntil = UnityEngine.Time.unscaledTime + 1.4f;
+                actionUntil = 0;
+                speech.text = action == 3 ? "No bedtime! I am not sleepy!" : "Too tired! I need to sleep.";
+                foreach (var source in actionMusic) source.Stop();
+                Refresh();
+            }
+            return;
+        }
+        refusalUntil = 0;
         actionMood = new[] { 5, 6, 4, 7 }[action];
         actionUntil = UnityEngine.Time.unscaledTime + 3f;
         speech.text = new[] { "Let's play!", "Time to learn.", "Yum! Thank you.", "Rested and ready!" }[action];
@@ -112,7 +125,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         int[] happiness = { 7500, 9950, 5050, 7500 };
         if (preset < 0 || preset >= happiness.Length) return;
         State = new MonsterState(happiness[preset], preset == 3 ? 20 : 100);
-        clock = 0; actionUntil = 0;
+        clock = 0; actionUntil = 0; refusalUntil = 0;
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];
         Refresh();

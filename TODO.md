@@ -27,3 +27,7 @@
 - [x] Correct numeric text alignment against the actual fill artwork shown in John's screenshot.
 
 - [x] Remove meter headings and replace the stamina moon with lightning artwork.
+
+- [x] Move meters to the top and use refusal feedback for blocked actions.
+- [x] Remove the mismatched eating bowl overlay.
+- [x] Match Play button mascot proportions.

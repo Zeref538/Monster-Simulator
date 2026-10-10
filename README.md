@@ -31,7 +31,7 @@ The new gameplay source is `Assets/Scripts/MonsterSimulator.cs`, authorized for 
 
 John records the video. During Play mode, select Canvas and open the Monster Simulator component's three-dot menu. Under Recording presets, use Almost happy, A quiet mood or Nearly tired. These change initial state only; action validation and tick decay remain active.
 
-Show passive decay, then Eat from Almost happy to reach 100. Happy lasts until the next decay tick. Study from A quiet mood reaches 50 or below. Nearly tired starts at 20: Sleep is locked. Study takes stamina below 20, locking Play/Study and unlocking Sleep. Sleep restores 100 and locks itself again.
+Show passive decay, then Eat from Almost happy to reach 100. Happy lasts until the next decay tick. Study from A quiet mood reaches 50 or below. Nearly tired starts at 20: Sleep refuses without restoring stamina. Study takes stamina below 20, making Play/Study refuse and allowing Sleep. Sleep restores 100 and refuses further sleep.
 
 Name the recording `MARTINEZ_MONSTER.mp4` and upload it to Google Drive. The presets are labelled recording aids, not automatic gameplay.
 
@@ -51,3 +51,5 @@ The phone layout has one bottom row of four matching action buttons. Happiness a
 The display truncates Happiness to a whole number. Its internal value still decays by exactly 0.01 per second and changes by 0.5 for Play/Study. A visible 100 therefore means exactly 100, matching the happy-state rule.
 
 Whole-number values are centered inside the colored meters. Happiness and Stamina headings are above their meters.
+
+Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show a brief sideways refusal shake and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.
