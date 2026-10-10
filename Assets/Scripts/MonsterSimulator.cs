@@ -98,15 +98,13 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     {
         var sprite = petSprite.sprite;
         bool refusing = UnityEngine.Time.unscaledTime < refusalUntil;
-        bool playing = pet.GetInteger("Mood") == 5;
         float lift = 0, tilt = 0;
         if (refusing)
         {
             float progress = UnityEngine.Mathf.Clamp01(1f - (refusalUntil - UnityEngine.Time.unscaledTime) / 1.8f);
             tilt = UnityEngine.Mathf.Sin(progress * UnityEngine.Mathf.PI * 4f) * 8f * (1f - progress);
         }
-        else if (playing)
-            tilt = UnityEngine.Mathf.Sin(UnityEngine.Time.unscaledTime * 7f) * 5f;
+
         pet.transform.localScale = baseScale;
         var turn = UnityEngine.Quaternion.Euler(0, 0, tilt);
         pet.transform.localRotation = baseRotation * turn;
@@ -129,7 +127,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         happinessText.text = ((int)State.Happiness).ToString() + " / 100";
         staminaText.text = State.Stamina + " / 100";
         playButton.interactable = studyButton.interactable = sleepButton.interactable = true;
-        int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < refusalUntil ? 3 : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
+        int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
         if (pet.GetInteger("Mood") != mood) pet.SetInteger("Mood", mood);
     }
     public void Act(int action)

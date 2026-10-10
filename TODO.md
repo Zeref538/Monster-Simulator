@@ -39,3 +39,6 @@
 
 - [x] Keep refusal grounded without hopping or scale pulses.
 - [x] Replace crouched Play frames with upright normal-body frames and a gentle rock.
+
+- [x] Use the normal pose for refusal instead of the differently positioned crying frames.
+- [x] Add a tail-chasing Play loop with 12 grounded frames.

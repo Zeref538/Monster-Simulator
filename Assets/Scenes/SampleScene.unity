@@ -4444,6 +4444,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c1e98d03076393e40a5f8a4abef48b52, type: 3}
   - {fileID: 21300000, guid: 72f2ecfb0fb64474c9a4ea31971bee02, type: 3}
   - {fileID: 21300000, guid: d6312983e16a12945a314aa94d28d9b9, type: 3}
+  - {fileID: 21300000, guid: eb0fd95766ba47158ba2c56461cb46f3, type: 3}
+  - {fileID: 21300000, guid: 8664521c89544c7fbf5159dd1b613d8a, type: 3}
+  - {fileID: 21300000, guid: a2e5abe442964a3993a6605d3f3facc3, type: 3}
+  - {fileID: 21300000, guid: 763844608348439aa876a6974d6c4eec, type: 3}
+  - {fileID: 21300000, guid: 1ed79927bd5844799f111ad4c83b2001, type: 3}
+  - {fileID: 21300000, guid: 180e3fbf247c4d63a62e07a10d99e140, type: 3}
+  - {fileID: 21300000, guid: a3679c1dc16544e7a74ce6567c6aadb3, type: 3}
+  - {fileID: 21300000, guid: c03aff7466eb466bb74c43a17f0b44e1, type: 3}
+  - {fileID: 21300000, guid: ef8c0fdbce03437eb106a7db968e4c39, type: 3}
+  - {fileID: 21300000, guid: 6e23c5ef15f64331bcb5d19293c30396, type: 3}
+  - {fileID: 21300000, guid: 044af3be1214429a9d7dcf9803d90f76, type: 3}
+  - {fileID: 21300000, guid: 89391f34d1504037a6c686b0011f9f33, type: 3}
   bodyCenters:
   - 0.5
   - 0.5
@@ -4547,6 +4559,18 @@ MonoBehaviour:
   - 0.48469
   - 0.4966
   - 0.47789
+  - 0.4328470
+  - 0.4652499
+  - 0.4485826
+  - 0.5511349
+  - 0.5104893
+  - 0.4503069
+  - 0.4934356
+  - 0.5301239
+  - 0.5491761
+  - 0.4413092
+  - 0.4649863
+  - 0.4396674
   startingHappinessHundredths: 7500
   startingStamina: 100
 --- !u!1 &997020
