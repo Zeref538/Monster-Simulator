@@ -99,3 +99,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Unity 6000.5.10f1 completed the ARM64 release build. All 14 C# rule assertions pass. APK version code 3, version name 1.1, upright portrait. Signature v2 verifies and matches the preceding APK's signing certificate, enabling an in-place update.
 - All 405 archive entries passed CRC checks; native Unity and IL2CPP libraries are present. Size: 41,479,934 bytes. SHA256: 34DF7CA90E7B1651712BE1F5E078AFADD5D996B3AB50387E7E0B635B0CEC69C2.
 - No Android device is connected. Actual fullscreen appearance, touch reactions, settings and persistence still need a phone runtime check.
+
+## Remove menu and heading
+
+- Removed the Menu button, settings panel and Pocket Pup text. Android Back now saves and closes. Sound is enabled without settings controls. Local progress, fullscreen safe-area layout and tickling remain in the existing runtime script.
+- Unity completed the ARM64 APK build. All 14 rule assertions pass. The removed title and panel name are absent from compiled native code and metadata.
+- APK version code 4 uses the same signing certificate as version 3. Upright portrait, signature v2 and all 405 archive CRC checks pass. Size: 41,469,294 bytes. SHA256: 43F2B855325E690897B0A8179C3C67AB4DFE0D7AE188832DB93BFD6FF52D2CDC.
+- Phone visual confirmation remains pending.

@@ -91,6 +91,9 @@
 
 ## Zeref Tasks
 
-- [ ] Install v2.2.0 over the previous APK and check fullscreen layout on the phone.
-- [ ] Check tap-to-tickle, Menu sound toggles and progress after closing/reopening.
-- [ ] Confirm New puppy cancellation, all four assignment actions and submit the APK.
+- [ ] Install v2.2.1 over the previous APK and check fullscreen layout on the phone.
+- [ ] Check tap-to-tickle and progress after closing/reopening.
+- [ ] Check all four assignment actions and submit the APK.
+
+- [x] Remove Menu and Pocket Pup title from the phone interface.
+- [x] Build and verify the APK without the menu.

@@ -76,17 +76,17 @@ The APK build omits recording counters and floating stat-change labels. Status m
 
 ## Android APK submission
 
-Download [Monster-Simulator-fullscreen.apk](https://github.com/Zeref538/Monster-Simulator/releases/download/v2.2.0/Monster-Simulator-fullscreen.apk). It requires Android 8.0 or later and an ARM64 phone. Install it over the previous APK, check the four actions and sound, then submit that APK. Phone runtime testing of this update is still pending.
+Download [Monster-Simulator-clean.apk](https://github.com/Zeref538/Monster-Simulator/releases/download/v2.2.1/Monster-Simulator-clean.apk). It requires Android 8.0 or later and an ARM64 phone. Install it over the previous APK, check the four actions and sound, then submit that APK. Phone runtime testing of this update is still pending.
 
-The APK is 41,479,934 bytes. Its signature and archive contents passed verification. It contains only the main gameplay scene.
+The APK is 41,469,294 bytes. Its signature and archive contents passed verification. It contains only the main gameplay scene.
 
 The upright game fills tall portrait screens without a fixed 9:16 frame. Puppy sprites keep their proportions, the yard scales uniformly, and controls respect the phone's safe area. Numbers are inside the meters. Happiness displays 100 immediately at the exact maximum; the next passive tick lowers it to 99.99, shown as 99.
 
 Tap the puppy for a short tickle reaction. It does not change happiness or stamina. The happy/sad state thresholds retain priority.
 
-Use Menu for music and sound-effect toggles, Continue, New puppy and Save & close. New puppy asks for confirmation; Continue cancels that reset. Android Back opens or closes the menu.
+The phone interface has no menu or title. Music and sound effects are enabled; use your phone's volume controls. Android Back saves and closes the app.
 
-The main game saves exact stats locally after accepted actions, every five seconds and on app pause or close. Progress and sound preferences remain on this phone across restarts. Gameplay and sound pause in the menu or background; there is no offline decay. Editor and recording scenes keep their original preset behavior.
+The main game saves exact stats locally after accepted actions, every five seconds and on app pause or close. Progress remains on this phone across restarts. Gameplay and sound pause in the background; there is no offline decay. Editor and recording scenes keep their original preset behavior.
 
 To rebuild with Unity CLI and Unity 6000.5.10f1 with Android support installed, run this from the project folder:
 
