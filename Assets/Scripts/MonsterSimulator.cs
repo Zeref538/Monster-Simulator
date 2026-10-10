@@ -59,8 +59,6 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     [UnityEngine.SerializeField] float targetHappiness, targetStamina;
     [UnityEngine.SerializeField] float happinessSpeed, staminaSpeed;
     float clock, actionUntil, refusalUntil;
-    [UnityEngine.SerializeField] UnityEngine.UI.Text[] changeTexts = new UnityEngine.UI.Text[3];
-    [UnityEngine.SerializeField] float[] changeUntil = new float[3];
     int actionMood;
     [UnityEngine.SerializeField] int lastStateMood = -1;
     UnityEngine.Vector3 basePosition, baseScale;
@@ -89,34 +87,11 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         var oldCounter = happinessText.transform.parent.Find("Recording tick counter");
         if (oldCounter != null) UnityEngine.Object.Destroy(oldCounter.gameObject);
         if (sleepBed == null) sleepBed = pet.transform.Find("SleepBed");
-        for (int i = 0; i < changeTexts.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (changeTexts[i] != null) continue;
-            var label = UnityEngine.Object.Instantiate(happinessText, happinessText.transform.parent);
-            label.name = "Stat change " + i;
-            label.fontSize = 20;
-            label.alignment = UnityEngine.TextAnchor.MiddleCenter;
-            label.raycastTarget = false;
-            label.rectTransform.anchorMin = label.rectTransform.anchorMax = UnityEngine.Vector2.zero;
-            label.rectTransform.pivot = new UnityEngine.Vector2(0.5f, 0.5f);
-            label.rectTransform.anchoredPosition = new UnityEngine.Vector2(i == 0 ? 360 : i == 1 ? 180 : 540,
-                i == 0 ? 1060 : 1092);
-            label.rectTransform.sizeDelta = new UnityEngine.Vector2(i == 0 ? 640 : 350, 28);
-            label.gameObject.SetActive(false);
-            changeTexts[i] = label;
+            var oldChange = happinessText.transform.parent.Find("Stat change " + i);
+            if (oldChange != null) UnityEngine.Object.Destroy(oldChange.gameObject);
         }
-    }
-    void ShowChange(int slot, int amount)
-    {
-        if (amount == 0) return;
-        var label = changeTexts[slot];
-        string value = slot == 2 ? UnityEngine.Mathf.Abs(amount).ToString()
-            : (UnityEngine.Mathf.Abs(amount) / 100f).ToString("0.##");
-        label.text = (amount > 0 ? "+" : "?") + value + (slot == 2 ? " Stamina" : " Happiness");
-        label.color = amount > 0 ? new UnityEngine.Color(0.65f, 1f, 0.75f, 1f)
-            : new UnityEngine.Color(1f, 0.8f, 0.65f, 1f);
-        changeUntil[slot] = UnityEngine.Time.unscaledTime + 0.65f;
-        label.gameObject.SetActive(true);
     }
     void CreateFoodCrumbs()
     {
@@ -157,9 +132,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         clock += UnityEngine.Time.unscaledDeltaTime;
         while (clock >= 1f)
         {
-            int before = State.HappinessHundredths;
             State.Tick();
-            ShowChange(0, State.HappinessHundredths - before);
             clock -= 1f;
         }
         Refresh();
@@ -168,16 +141,6 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         shownStamina = UnityEngine.Mathf.MoveTowards(shownStamina, targetStamina,
             staminaSpeed * UnityEngine.Time.unscaledDeltaTime);
         DrawMeters();
-        for (int i = 0; i < changeTexts.Length; i++)
-        {
-            var label = changeTexts[i];
-            if (!label.gameObject.activeSelf) continue;
-            float left = changeUntil[i] - UnityEngine.Time.unscaledTime;
-            if (left <= 0) { label.gameObject.SetActive(false); continue; }
-            var color = label.color;
-            color.a = UnityEngine.Mathf.Clamp01(left / 0.2f);
-            label.color = color;
-        }
     }
     void FitPortrait()
     {
@@ -268,7 +231,6 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     }
     public void Act(int action)
     {
-        int oldHappiness = State.HappinessHundredths, oldStamina = State.Stamina;
         if (!State.Act(action))
         {
             if (action == 0 || action == 1 || action == 3)
@@ -281,8 +243,6 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
             }
             return;
         }
-        ShowChange(1, State.HappinessHundredths - oldHappiness);
-        ShowChange(2, State.Stamina - oldStamina);
         refusalUntil = 0;
         actionMood = new[] { 5, 6, 4, 7 }[action];
         actionUntil = UnityEngine.Time.unscaledTime + 3f;
@@ -298,7 +258,6 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         State = new MonsterState(happiness[preset], preset == 3 ? 20 : 100);
         clock = 0;
         actionUntil = 0; refusalUntil = 0; lastStateMood = -1;
-        foreach (var label in changeTexts) if (label != null) label.gameObject.SetActive(false);
         SnapMeters();
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];

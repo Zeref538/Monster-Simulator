@@ -171,6 +171,7 @@ PlayerSettings:
   androidMinAspectRatio: 1
   applicationIdentifier:
     Standalone: com.DefaultCompany.2D-URP
+    Android: com.zeref538.monstersimulator
   buildNumber:
     Standalone: 0
     VisionOS: 0

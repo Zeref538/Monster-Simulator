@@ -72,4 +72,4 @@ Actions now play short toy squeaks (Play), page turns (Study), eating crunches (
 
 The project supports mouse, keyboard, touchscreen and pen. Gamepads are excluded because an attached DualShock device flooded the input queue during recording. Restart Unity after updating input settings. The default 5 MB per-update event limit remains enabled.
 
-Brief popups show measured changes, such as -0.01 Happiness each tick or -10 Stamina after Play/Study. They last 0.65 seconds and fade during the final 0.2 seconds. Passive and action changes use separate labels, so a tick cannot overwrite an action popup. Capped gains show only the amount actually added; refusals produce no stat-change popup. Main meter numbers remain whole numbers. Fresh runs and recording preset resets clear the popups. No time or tick counter is shown.
+The APK build omits recording counters and floating stat-change labels. Status meters still count smoothly toward their values.
