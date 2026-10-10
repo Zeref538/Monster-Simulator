@@ -47,6 +47,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     public UnityEngine.GameObject speechBubble;
     [UnityEngine.HideInInspector] public UnityEngine.AudioSource[] actionMusic;
     [UnityEngine.HideInInspector] public UnityEngine.Sprite[] centeredSprites;
+    [UnityEngine.HideInInspector] public UnityEngine.Sprite[] beggingSprites;
     [UnityEngine.HideInInspector] public float[] bodyCenters;
     public int startingHappinessHundredths = 7500;
     public int startingStamina = 100;
@@ -96,15 +97,15 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     }
     void LateUpdate()
     {
-        var sprite = petSprite.sprite;
         bool refusing = UnityEngine.Time.unscaledTime < refusalUntil;
-        float lift = 0, tilt = 0;
-        if (refusing)
+        if (refusing && State.Mood == 0 && beggingSprites != null && beggingSprites.Length > 0)
         {
-            float progress = UnityEngine.Mathf.Clamp01(1f - (refusalUntil - UnityEngine.Time.unscaledTime) / 1.8f);
-            tilt = UnityEngine.Mathf.Sin(progress * UnityEngine.Mathf.PI * 4f) * 8f * (1f - progress);
+            float elapsed = 2.1f - (refusalUntil - UnityEngine.Time.unscaledTime);
+            int frame = (int)(elapsed * 5f) % beggingSprites.Length;
+            petSprite.sprite = beggingSprites[frame];
         }
-
+        var sprite = petSprite.sprite;
+        float lift = 0, tilt = 0;
         pet.transform.localScale = baseScale;
         var turn = UnityEngine.Quaternion.Euler(0, 0, tilt);
         pet.transform.localRotation = baseRotation * turn;
@@ -136,9 +137,9 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         {
             if (action == 0 || action == 1 || action == 3)
             {
-                refusalUntil = UnityEngine.Time.unscaledTime + 1.8f;
+                refusalUntil = UnityEngine.Time.unscaledTime + 2.1f;
                 actionUntil = 0;
-                speech.text = action == 3 ? "But... one more game?" : "Too tired! I need to sleep.";
+                speech.text = action == 3 ? "Not yet... please?" : "Too tired! I need to sleep.";
                 foreach (var source in actionMusic) source.Stop();
                 Refresh();
             }

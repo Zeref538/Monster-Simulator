@@ -42,3 +42,5 @@
 
 - [x] Use the normal pose for refusal instead of the differently positioned crying frames.
 - [x] Add a tail-chasing Play loop with 12 grounded frames.
+
+- [x] Add six grounded begging poses and correct twelve tail-chasing poses.

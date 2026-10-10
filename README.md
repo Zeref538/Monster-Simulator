@@ -55,3 +55,5 @@ Whole-number values are centered inside the colored meters. Happiness and Stamin
 Buttons remain clickable for feedback. Forbidden Play/Study or Sleep actions show a grounded refusal with head tilts and an expressive face and speech, without changing state. This differs from visibly disabled buttons in the demonstration rubric, while retaining the stamina validation rules.
 
 Play uses a twelve-frame tail-chasing loop. Refusal keeps the normal pose and tilts around the feet instead of switching to differently positioned crying frames.
+
+High-stamina Sleep requests show six seated begging poses with the bubble "Not yet... please?". Happy/Sad threshold poses retain priority.
