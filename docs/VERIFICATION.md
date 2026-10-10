@@ -58,3 +58,9 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Read the installed Input System 1.20.0 source: InputSettings.supportedDevices filters discovered device layouts; InputManager removes already discovered unsupported devices when settings change. Editor user settings can override this filter through Add Devices Not Supported by Project (false by default).
 - Added MonsterInputSettings with Keyboard, Mouse, Touchscreen and Pen and linked it through the package's com.unity.input.settings build-settings key. Existing input actions and the default event budget are retained.
 - Asset GUID, script GUID, layout list and build-settings link checked against package source. Game logic unchanged. Resolution of the actual device flood needs a Unity restart and live observation.
+
+## Recording tick counter
+
+- Counter increments in the same while loop that calls MonsterState.Tick. Time is derived from completed one-second ticks. Last loss is measured from before/after HappinessHundredths, so a clamped tick at zero reports 0.00 rather than falsely claiming a loss.
+- Counter is created in the existing runtime component for all six scenes, using the existing numeric-label font and styling. Main meter numbers remain whole numbers. Fresh runs and recording preset resets zero the counter.
+- Runtime compiled against installed Unity assemblies, including TextRenderingModule for TextAnchor. All 14 rule assertions pass. Live label position and count progression remain unverified.

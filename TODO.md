@@ -64,3 +64,6 @@
 
 - [x] Restrict project input to Keyboard, Mouse, Touchscreen and Pen while retaining the 5 MB event limit.
 - [ ] Restart Unity and confirm the DualShock event-flood error stops.
+
+- [x] Add elapsed game time, actual tick count and measured last-tick loss to all scenes.
+- [ ] Check the counter position and tick increments in Unity Play mode.

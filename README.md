@@ -71,3 +71,5 @@ Meter fills and whole-number values count toward their targets over about 1.2 se
 Actions now play short toy squeaks (Play), page turns (Study), eating crunches (Eat) and blanket rustles (Sleep). See docs/AUDIO_SOURCES.md for source links and licenses. Sad frames use corrected custom pivots so their feet align with the other animations.
 
 The project supports mouse, keyboard, touchscreen and pen. Gamepads are excluded because an attached DualShock device flooded the input queue during recording. Restart Unity after updating input settings. The default 5 MB per-update event limit remains enabled.
+
+A small recording counter shows elapsed game time and the number of actual decay ticks. Its second line shows the measured happiness lost by the last tick (normally 0.01, or 0.00 when already at zero). The main meters still use whole numbers. The counter resets on each fresh Play run or recording preset reset. It uses the same tick loop as the game state, not a separate timer.

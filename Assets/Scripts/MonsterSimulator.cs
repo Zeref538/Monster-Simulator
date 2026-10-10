@@ -59,6 +59,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     [UnityEngine.SerializeField] float targetHappiness, targetStamina;
     [UnityEngine.SerializeField] float happinessSpeed, staminaSpeed;
     float clock, actionUntil, refusalUntil;
+    [UnityEngine.SerializeField] UnityEngine.UI.Text tickText;
+    [UnityEngine.SerializeField] int tickCount, lastTickLoss;
     int actionMood;
     [UnityEngine.SerializeField] int lastStateMood = -1;
     UnityEngine.Vector3 basePosition, baseScale;
@@ -69,6 +71,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     void Awake()
     {
         State = new MonsterState(startingHappinessHundredths, startingStamina);
+        tickCount = 0; lastTickLoss = 0;
         basePosition = pet.transform.localPosition;
         baseScale = pet.transform.localScale;
         baseRotation = pet.transform.localRotation;
@@ -85,6 +88,19 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         if (State == null) Awake();
         CreateFoodCrumbs();
         if (sleepBed == null) sleepBed = pet.transform.Find("SleepBed");
+        if (tickText == null)
+        {
+            tickText = UnityEngine.Object.Instantiate(happinessText, happinessText.transform.parent);
+            tickText.name = "Recording tick counter";
+            tickText.fontSize = 22;
+            tickText.alignment = UnityEngine.TextAnchor.MiddleCenter;
+            tickText.raycastTarget = false;
+            var rect = tickText.rectTransform;
+            rect.anchorMin = rect.anchorMax = UnityEngine.Vector2.zero;
+            rect.pivot = new UnityEngine.Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = new UnityEngine.Vector2(360, 1080);
+            rect.sizeDelta = new UnityEngine.Vector2(640, 60);
+        }
     }
     void CreateFoodCrumbs()
     {
@@ -123,7 +139,14 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     {
         FitPortrait();
         clock += UnityEngine.Time.unscaledDeltaTime;
-        while (clock >= 1f) { State.Tick(); clock -= 1f; }
+        while (clock >= 1f)
+        {
+            int before = State.HappinessHundredths;
+            State.Tick();
+            lastTickLoss = before - State.HappinessHundredths;
+            tickCount++;
+            clock -= 1f;
+        }
         Refresh();
         shownHappiness = UnityEngine.Mathf.MoveTowards(shownHappiness, targetHappiness,
             happinessSpeed * UnityEngine.Time.unscaledDeltaTime);
@@ -181,6 +204,10 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
 
     void Refresh()
     {
+        if (tickText != null)
+            tickText.text = "Time " + (tickCount / 60).ToString("00") + ":" + (tickCount % 60).ToString("00")
+                + "  |  Tick " + tickCount
+                + "\nLast tick: -" + (lastTickLoss / 100f).ToString("0.00") + " happiness";
         // Only the display eases. Validation and mood always use the exact state.
         if (targetHappiness != State.Happiness)
         {
@@ -245,7 +272,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         int[] happiness = { 7500, 9950, 5050, 7500 };
         if (preset < 0 || preset >= happiness.Length) return;
         State = new MonsterState(happiness[preset], preset == 3 ? 20 : 100);
-        clock = 0; actionUntil = 0; refusalUntil = 0; lastStateMood = -1;
+        clock = 0; tickCount = 0; lastTickLoss = 0;
+        actionUntil = 0; refusalUntil = 0; lastStateMood = -1;
         SnapMeters();
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];
