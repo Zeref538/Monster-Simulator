@@ -9,3 +9,9 @@
 - [x] Publish complete Unity source and updated clone instructions.
 - [ ] John: record MARTINEZ_MONSTER.mp4 and upload it to Google Drive.
 
+
+- [x] Enlarge numeric meters and action labels for phone recording.
+- [x] Arrange actions in two matching rows without stretching artwork.
+- [x] Keep a 9:16 camera and UI viewport in wide windows.
+- [x] Verify the updated C# compilation and publish the layout patch.
+- [ ] John: reopen SampleScene and check the larger phone layout before recording.

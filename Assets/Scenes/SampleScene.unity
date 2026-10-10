@@ -949,8 +949,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 90, y: 190}
-  m_SizeDelta: {x: 154, y: 140}
+  m_AnchoredPosition: {x: -170, y: 125}
+  m_SizeDelta: {x: 215.6, y: 154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &744473514
 MonoBehaviour:
@@ -1082,8 +1082,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 270, y: 190}
-  m_SizeDelta: {x: 154, y: 140}
+  m_AnchoredPosition: {x: 170, y: 125}
+  m_SizeDelta: {x: 215.6, y: 154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &877570086
 MonoBehaviour:
@@ -1294,8 +1294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -270, y: 190}
-  m_SizeDelta: {x: 154, y: 140}
+  m_AnchoredPosition: {x: -170, y: 340}
+  m_SizeDelta: {x: 215.6, y: 154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1421093505
 MonoBehaviour:
@@ -1460,9 +1460,9 @@ Canvas:
   m_GameObject: {fileID: 1476377173}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1556,8 +1556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -90, y: 190}
-  m_SizeDelta: {x: 154, y: 140}
+  m_AnchoredPosition: {x: 170, y: 340}
+  m_SizeDelta: {x: 215.6, y: 154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910323558
 MonoBehaviour:
@@ -1919,7 +1919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900001, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -195
       objectReference: {fileID: 0}
     - target: {fileID: 900003, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_Sprite
@@ -1968,7 +1968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900001, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -195
       objectReference: {fileID: 0}
     - target: {fileID: 900003, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_Sprite
@@ -2524,8 +2524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 180, y: 1210}
-  m_SizeDelta: {x: 300, y: 90}
+  m_AnchoredPosition: {x: 180, y: 1192}
+  m_SizeDelta: {x: 330, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &992022
 CanvasRenderer:
@@ -2557,7 +2557,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -2597,7 +2597,7 @@ GameObject:
   - component: {fileID: 992043}
   - component: {fileID: 992044}
   m_Layer: 5
-  m_Name: EnergyLabel
+  m_Name: StaminaLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2619,8 +2619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 540, y: 1210}
-  m_SizeDelta: {x: 300, y: 90}
+  m_AnchoredPosition: {x: 540, y: 1192}
+  m_SizeDelta: {x: 330, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &992042
 CanvasRenderer:
@@ -2652,7 +2652,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -2663,7 +2663,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Energy
+  m_Text: Stamina
 --- !u!114 &992044
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -47,20 +47,36 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     float clock, actionUntil;
     int actionMood;
     UnityEngine.Vector3 basePosition;
+    UnityEngine.Camera view;
+    int viewWidth, viewHeight;
 
     void Awake()
     {
         State = new MonsterState(startingHappinessHundredths, startingStamina);
         basePosition = pet.transform.localPosition;
+        view = UnityEngine.Camera.main;
+        FitPortrait();
         speechBubble.SetActive(true);
         speech.text = "Hi! Want to play?";
         Refresh();
     }
     void Update()
     {
+        FitPortrait();
         clock += UnityEngine.Time.unscaledDeltaTime;
         while (clock >= 1f) { State.Tick(); clock -= 1f; }
         Refresh();
+    }
+    void FitPortrait()
+    {
+        int width = UnityEngine.Screen.width, height = UnityEngine.Screen.height;
+        if (view == null || height == 0 || (width == viewWidth && height == viewHeight)) return;
+        viewWidth = width; viewHeight = height;
+        float ratio = (float)width / height;
+        const float portrait = 9f / 16f;
+        float w = ratio > portrait ? portrait / ratio : 1f;
+        float h = ratio < portrait ? ratio / portrait : 1f;
+        view.rect = new UnityEngine.Rect((1f - w) / 2f, (1f - h) / 2f, w, h);
     }
     void LateUpdate()
     {

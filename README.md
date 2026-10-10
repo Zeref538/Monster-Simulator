@@ -9,7 +9,7 @@ git clone --depth 1 https://github.com/Zeref538/Monster-Simulator.git
 cd Monster-Simulator
 ```
 
-In Unity Hub, add this folder as a project and open it with 6000.5.10f1. Open `Assets/Scenes/SampleScene.unity`, select a 9:16 Game view and press Play. The folder contains Assets, Packages and ProjectSettings. No executable is needed.
+In Unity Hub, add this folder as a project and open it with 6000.5.10f1. Open `Assets/Scenes/SampleScene.unity`, select a 9:16 Game view (the camera also keeps a portrait viewport in wider windows) and press Play. The folder contains Assets, Packages and ProjectSettings. No executable is needed.
 
 On this Windows PC, you can launch the editor from the project folder:
 
@@ -45,3 +45,5 @@ dotnet run --project Tests/Rules.csproj
 
 The runner tests the same C# state class used by the Unity game. See docs/VERIFICATION.md for measured checks.
 
+
+The phone layout has two rows of matching action buttons. Happiness shows two decimal places and Stamina shows its current value out of 100, with larger labels for screen recordings.
