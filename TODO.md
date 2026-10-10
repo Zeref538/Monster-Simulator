@@ -25,3 +25,5 @@
 - [x] Put exactly four actions in one bottom row.
 
 - [x] Correct numeric text alignment against the actual fill artwork shown in John's screenshot.
+
+- [x] Remove meter headings and replace the stamina moon with lightning artwork.

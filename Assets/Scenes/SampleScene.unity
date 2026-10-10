@@ -1979,7 +1979,7 @@ PrefabInstance:
     - target: {fileID: 900003, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_Sprite
       value:
-      objectReference: {fileID: 21300000, guid: c0839cae48fab91469a6212a59ab7763, type: 3}
+      objectReference: {fileID: 21300000, guid: f149013dae9a439b841f18a2a49eb060, type: 3}
     - target: {fileID: 900013, guid: 77eacabe115d43dba36076a8a1890241, type: 3}
       propertyPath: m_Sprite
       value:
@@ -4567,7 +4567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &997021
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4662,7 +4662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &997041
 RectTransform:
   m_ObjectHideFlags: 0
