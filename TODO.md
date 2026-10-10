@@ -61,3 +61,6 @@
 - [x] Raise the bubble slightly and give Sad/Happy matching speech.
 - [x] Replace four generic action tunes with sourced CC0 action effects.
 - [ ] Review Sad positioning and listen to the new effects in Unity Play mode.
+
+- [x] Restrict project input to Keyboard, Mouse, Touchscreen and Pen while retaining the 5 MB event limit.
+- [ ] Restart Unity and confirm the DualShock event-flood error stops.

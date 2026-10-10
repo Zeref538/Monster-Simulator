@@ -69,3 +69,5 @@ High-stamina Sleep requests show six seated begging poses with the bubble "Not y
 Meter fills and whole-number values count toward their targets over about 1.2 seconds. Actual state changes and validation happen immediately; animations use actual state. Wait for meters to settle between recording actions. Passive decay remains exactly 0.01 per second.
 
 Actions now play short toy squeaks (Play), page turns (Study), eating crunches (Eat) and blanket rustles (Sleep). See docs/AUDIO_SOURCES.md for source links and licenses. Sad frames use corrected custom pivots so their feet align with the other animations.
+
+The project supports mouse, keyboard, touchscreen and pen. Gamepads are excluded because an attached DualShock device flooded the input queue during recording. Restart Unity after updating input settings. The default 5 MB per-update event limit remains enabled.

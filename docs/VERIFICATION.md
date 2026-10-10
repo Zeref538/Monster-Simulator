@@ -51,3 +51,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - All six scenes raise the bubble from y=905 to 945 without stretching it. Sad and Happy state entry now updates speech to fit the mood.
 - Four sourced CC0 effects replace existing action WAV contents while retaining GUIDs. Measured durations: Play 1.15 seconds, Study 2.01, Eat 1.83, Sleep 1.26. All are mono 44100 Hz PCM16, non-silent, with peaks below 0.66. All six scenes retain references to these clips. See AUDIO_SOURCES.md for licenses and source files.
 - Runtime compilation and all 14 rule assertions pass. Live Sad positioning and in-game audio listening remain unverified because native app control is unavailable.
+
+## Input event flood
+
+- User screenshot reports 5,242,952 bytes processed from DualShock4GamepadHID in one update, exceeding the default 5,242,880-byte limit. The underlying device/driver cause is not established.
+- Read the installed Input System 1.20.0 source: InputSettings.supportedDevices filters discovered device layouts; InputManager removes already discovered unsupported devices when settings change. Editor user settings can override this filter through Add Devices Not Supported by Project (false by default).
+- Added MonsterInputSettings with Keyboard, Mouse, Touchscreen and Pen and linked it through the package's com.unity.input.settings build-settings key. Existing input actions and the default event budget are retained.
+- Asset GUID, script GUID, layout list and build-settings link checked against package source. Game logic unchanged. Resolution of the actual device flood needs a Unity restart and live observation.
