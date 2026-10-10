@@ -31,3 +31,6 @@
 - [x] Move meters to the top and use refusal feedback for blocked actions.
 - [x] Remove the mismatched eating bowl overlay.
 - [x] Match Play button mascot proportions.
+
+- [x] Replace sideways refusal with tiny hops, tilts and an expressive refusal pose.
+- [x] Increase the playing pup uniformly by 20 percent and preserve ground position.

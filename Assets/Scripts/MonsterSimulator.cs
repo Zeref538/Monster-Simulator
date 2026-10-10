@@ -46,7 +46,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     public MonsterState State { get; private set; }
     float clock, actionUntil, refusalUntil;
     int actionMood;
-    UnityEngine.Vector3 basePosition;
+    UnityEngine.Vector3 basePosition, baseScale;
+    UnityEngine.Quaternion baseRotation;
     UnityEngine.Camera view;
     int viewWidth, viewHeight;
 
@@ -54,6 +55,8 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     {
         State = new MonsterState(startingHappinessHundredths, startingStamina);
         basePosition = pet.transform.localPosition;
+        baseScale = pet.transform.localScale;
+        baseRotation = pet.transform.localRotation;
         view = UnityEngine.Camera.main;
         FitPortrait();
         speechBubble.SetActive(true);
@@ -81,13 +84,29 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     void LateUpdate()
     {
         var sprite = petSprite.sprite;
+        bool refusing = UnityEngine.Time.unscaledTime < refusalUntil;
+        float size = pet.GetInteger("Mood") == 5 ? 1.2f : 1f;
+        float lift = 0, tilt = 0;
+        if (refusing)
+        {
+            float elapsed = 1.8f - (refusalUntil - UnityEngine.Time.unscaledTime);
+            float progress = UnityEngine.Mathf.Clamp01(elapsed / 1.8f);
+            float bounce = UnityEngine.Mathf.Abs(UnityEngine.Mathf.Sin(progress * UnityEngine.Mathf.PI * 2f));
+            lift = bounce * 0.17f * (1f - progress);
+            tilt = UnityEngine.Mathf.Sin(progress * UnityEngine.Mathf.PI * 4f) * 10f * (1f - progress);
+            size *= 1f + bounce * 0.035f;
+        }
+        pet.transform.localScale = baseScale * size;
+        pet.transform.localRotation = baseRotation * UnityEngine.Quaternion.Euler(0, 0, tilt);
         int index = Array.IndexOf(centeredSprites, sprite);
         float offset = index >= 0 && index < bodyCenters.Length
             ? (0.5f - bodyCenters[index]) * sprite.rect.width / sprite.pixelsPerUnit * pet.transform.localScale.x : 0;
-        if (UnityEngine.Time.unscaledTime < refusalUntil)
-            offset += UnityEngine.Mathf.Sin(UnityEngine.Time.unscaledTime * 24f) * 0.07f;
-        pet.transform.localPosition = basePosition + new UnityEngine.Vector3(offset, 0, 0);
+        // Keep the playing pup's feet on the same ground when increasing its size.
+        if (pet.GetInteger("Mood") == 5)
+            lift += (sprite.pivot.y - 12f) / sprite.pixelsPerUnit * baseScale.y * (size - 1f);
+        pet.transform.localPosition = basePosition + new UnityEngine.Vector3(offset, lift, 0);
     }
+
     void Refresh()
     {
         happinessBar.fillAmount = State.Happiness / 100f;
@@ -95,7 +114,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         happinessText.text = ((int)State.Happiness).ToString() + " / 100";
         staminaText.text = State.Stamina + " / 100";
         playButton.interactable = studyButton.interactable = sleepButton.interactable = true;
-        int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
+        int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < refusalUntil ? 3 : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
         if (pet.GetInteger("Mood") != mood) pet.SetInteger("Mood", mood);
     }
     public void Act(int action)
@@ -104,9 +123,9 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         {
             if (action == 0 || action == 1 || action == 3)
             {
-                refusalUntil = UnityEngine.Time.unscaledTime + 1.4f;
+                refusalUntil = UnityEngine.Time.unscaledTime + 1.8f;
                 actionUntil = 0;
-                speech.text = action == 3 ? "No bedtime! I am not sleepy!" : "Too tired! I need to sleep.";
+                speech.text = action == 3 ? "But... one more game?" : "Too tired! I need to sleep.";
                 foreach (var source in actionMusic) source.Stop();
                 Refresh();
             }
