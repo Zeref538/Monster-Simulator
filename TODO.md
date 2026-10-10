@@ -44,3 +44,7 @@
 - [x] Add a tail-chasing Play loop with 12 grounded frames.
 
 - [x] Add six grounded begging poses and correct twelve tail-chasing poses.
+
+- [x] Add falling food crumbs during Eat.
+- [x] Add twelve expressive reading frames with consistent scale and ground alignment.
+- [ ] Check new Eat and Study visuals in Unity Play mode (app-control connection unavailable).

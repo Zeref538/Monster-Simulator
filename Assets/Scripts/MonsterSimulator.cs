@@ -53,6 +53,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     public int startingStamina = 100;
     [field: UnityEngine.SerializeField]
     public MonsterState State { get; private set; }
+    [UnityEngine.SerializeField] UnityEngine.ParticleSystem foodCrumbs;
     float clock, actionUntil, refusalUntil;
     int actionMood;
     UnityEngine.Vector3 basePosition, baseScale;
@@ -76,6 +77,40 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     {
         // Script reloads do not call Awake again on an existing component.
         if (State == null) Awake();
+        CreateFoodCrumbs();
+    }
+    void CreateFoodCrumbs()
+    {
+        if (foodCrumbs != null) return;
+        var crumbs = new UnityEngine.GameObject("Food crumbs");
+        crumbs.transform.SetParent(pet.transform, false);
+        crumbs.transform.localPosition = new UnityEngine.Vector3(-0.15f, -0.35f, 0);
+        foodCrumbs = crumbs.AddComponent<UnityEngine.ParticleSystem>();
+        foodCrumbs.Stop(true, UnityEngine.ParticleSystemStopBehavior.StopEmittingAndClear);
+        var main = foodCrumbs.main;
+        main.loop = true;
+        main.playOnAwake = false;
+        main.startLifetime = new UnityEngine.ParticleSystem.MinMaxCurve(0.4f, 0.65f);
+        main.startSpeed = 0.12f;
+        main.startSize = new UnityEngine.ParticleSystem.MinMaxCurve(0.025f, 0.045f);
+        main.startColor = new UnityEngine.Color(1f, 0.72f, 0.3f, 1f);
+        main.maxParticles = 16;
+        main.simulationSpace = UnityEngine.ParticleSystemSimulationSpace.Local;
+        var emission = foodCrumbs.emission;
+        emission.rateOverTime = 7f;
+        var shape = foodCrumbs.shape;
+        shape.shapeType = UnityEngine.ParticleSystemShapeType.Sphere;
+        shape.radius = 0.025f;
+        var velocity = foodCrumbs.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = UnityEngine.ParticleSystemSimulationSpace.Local;
+        velocity.x = new UnityEngine.ParticleSystem.MinMaxCurve(-0.12f, 0.12f);
+        velocity.y = new UnityEngine.ParticleSystem.MinMaxCurve(-0.5f, -0.3f);
+        velocity.z = new UnityEngine.ParticleSystem.MinMaxCurve(0f, 0f);
+        var renderer = crumbs.GetComponent<UnityEngine.ParticleSystemRenderer>();
+        renderer.sharedMaterial = petSprite.sharedMaterial;
+        renderer.sortingLayerID = petSprite.sortingLayerID;
+        renderer.sortingOrder = petSprite.sortingOrder + 2;
     }
     void Update()
     {
@@ -104,6 +139,10 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
             int frame = (int)(elapsed * 5f) % beggingSprites.Length;
             petSprite.sprite = beggingSprites[frame];
         }
+        bool eating = pet.GetInteger("Mood") == 4 && !refusing;
+        if (eating && !foodCrumbs.isPlaying) foodCrumbs.Play();
+        if (!eating && foodCrumbs.isPlaying)
+            foodCrumbs.Stop(true, UnityEngine.ParticleSystemStopBehavior.StopEmitting);
         var sprite = petSprite.sprite;
         float lift = 0, tilt = 0;
         pet.transform.localScale = baseScale;

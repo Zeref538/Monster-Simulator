@@ -21,3 +21,12 @@ Grounded-refusal patch: removed the hop and scale pulse, replaced crouched Play 
 Tail-chasing patch: 12 transparent 192 x 192 frames cut from the new 4 x 3 sheet, each grounded at pixel 180. The playing clip references all 12 new sprites and returns to the first at the loop boundary. Added matching body-center entries. Refusal no longer selects the crying pose. Runtime compilation and 14 rules passed; live visual inspection is still unavailable.
 
 Begging patch: six new begging frames and twelve corrected Play frames use transparent 192 x 192 canvases and a common ground at pixel 180. Six begging references and matched body-centering entries are wired. No transform hop or scale pulse runs during refusal. Runtime compilation and 14 rules pass. Live appearance remains unverified.
+
+## Eating and reading details
+
+- Runtime C# compiled against Unity 6000.5.10f1, including ParticleSystemModule.
+- All 14 state-rule assertions pass. No state-rule changes in this update.
+- Measured 12 study sprites: each 192 x 192 with nontransparent bottom at pixel 180. One common resize scale preserves relative frame proportions. Existing sprite GUIDs retained.
+- Inspected generated sheet and extracted frame 08 for reading expressions. Updated all 12 body center anchors.
+- Food effect emits seven small golden crumbs per second only while the Eat mood is active, with downward velocity; it stops emitting when the action ends or refusal begins.
+- New effects have not been observed in Unity Play mode: native app-control connection is unavailable.
