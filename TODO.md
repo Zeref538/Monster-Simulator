@@ -67,3 +67,8 @@
 
 - [x] Add elapsed game time, actual tick count and measured last-tick loss to all scenes.
 - [ ] Check the counter position and tick increments in Unity Play mode.
+
+- [x] Replace last-tick line with brief measured happiness/stamina change popups.
+- [ ] Check popup placement and fade in Unity Play mode.
+
+- [x] Remove the time and tick counter, leaving only floating changes.

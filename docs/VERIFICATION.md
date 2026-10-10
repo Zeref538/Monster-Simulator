@@ -64,3 +64,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - Counter increments in the same while loop that calls MonsterState.Tick. Time is derived from completed one-second ticks. Last loss is measured from before/after HappinessHundredths, so a clamped tick at zero reports 0.00 rather than falsely claiming a loss.
 - Counter is created in the existing runtime component for all six scenes, using the existing numeric-label font and styling. Main meter numbers remain whole numbers. Fresh runs and recording preset resets zero the counter.
 - Runtime compiled against installed Unity assemblies, including TextRenderingModule for TextAnchor. All 14 rule assertions pass. Live label position and count progression remain unverified.
+
+## Floating stat changes only
+
+- Removed the time/tick display and last-tick line. Existing runtime counter objects are removed when the component enables, including after a script reload.
+- Passive ticks show measured happiness change in a separate label from action changes. Accepted actions measure both state values before/after validation, including capped gains. Rejected actions return before displaying stat-change feedback.
+- Three reused text labels appear for 0.65 seconds, fade in the final 0.2 seconds and clear on demo reset. Main status meters retain whole numbers. No new scripts or assets are required.
+- Runtime compilation and 14 rule assertions pass. Live popup positions and fading remain unverified.
