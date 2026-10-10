@@ -46,6 +46,8 @@ dotnet run --project Tests/Rules.csproj
 The runner tests the same C# state class used by the Unity game. See docs/VERIFICATION.md for measured checks.
 
 
-The phone layout has two rows of matching action buttons. Happiness and Stamina show whole numbers out of 100, with larger labels for screen recordings.
+The phone layout has one bottom row of four matching action buttons. Happiness and Stamina show whole numbers out of 100, with larger labels for screen recordings.
 
 The display truncates Happiness to a whole number. Its internal value still decays by exactly 0.01 per second and changes by 0.5 for Play/Study. A visible 100 therefore means exactly 100, matching the happy-state rule.
+
+Whole-number values are centered inside the colored meters. Happiness and Stamina headings are above their meters.
