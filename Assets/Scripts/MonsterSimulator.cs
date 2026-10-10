@@ -60,6 +60,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
     [UnityEngine.SerializeField] float happinessSpeed, staminaSpeed;
     float clock, actionUntil, refusalUntil;
     int actionMood;
+    [UnityEngine.SerializeField] int lastStateMood = -1;
     UnityEngine.Vector3 basePosition, baseScale;
     UnityEngine.Quaternion baseRotation;
     UnityEngine.Camera view;
@@ -191,6 +192,12 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
             targetStamina = State.Stamina;
             staminaSpeed = UnityEngine.Mathf.Abs(targetStamina - shownStamina) / 1.2f;
         }
+        if (lastStateMood != State.Mood)
+        {
+            lastStateMood = State.Mood;
+            if (State.Mood == 2) speech.text = "Stay with me?";
+            else if (State.Mood == 1) speech.text = "I'm so happy!";
+        }
         playButton.interactable = studyButton.interactable = sleepButton.interactable = true;
         int mood = State.Mood != 0 ? State.Mood : UnityEngine.Time.unscaledTime < actionUntil ? actionMood : 0;
         if (pet.GetInteger("Mood") != mood) pet.SetInteger("Mood", mood);
@@ -238,7 +245,7 @@ public class MonsterSimulator : UnityEngine.MonoBehaviour
         int[] happiness = { 7500, 9950, 5050, 7500 };
         if (preset < 0 || preset >= happiness.Length) return;
         State = new MonsterState(happiness[preset], preset == 3 ? 20 : 100);
-        clock = 0; actionUntil = 0; refusalUntil = 0;
+        clock = 0; actionUntil = 0; refusalUntil = 0; lastStateMood = -1;
         SnapMeters();
         foreach (var source in actionMusic) source.Stop();
         speech.text = new[] { "Hi! Want to play?", "One more game?", "Keep me company?", "A little play?" }[preset];

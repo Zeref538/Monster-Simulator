@@ -44,3 +44,10 @@ Begging patch: six new begging frames and twelve corrected Play frames use trans
 - The complete MonsterState source is byte-equivalent after newline normalization to the previous commit. All 14 rule assertions pass and runtime code compiles against Unity 6000.5.10f1.
 - State validation and mood continue using actual values, regardless of meter animation. Repeated actions retarget from the currently displayed values.
 - Live meter motion remains unverified because native app control is unavailable.
+
+## Sad pivot correction and action sound effects
+
+- Diagnosis: six original Sad textures use alignment 7 (bottom-center), unlike the centered smooth frames. Their opaque feet sit 3 pixels above the origin; normal frames sit 84 pixels below it. Before/after asset checks show all six fail the normal baseline before and match it after custom-pivot correction. Artwork is unchanged, and body anchors are measured from the upper body rather than the tail.
+- All six scenes raise the bubble from y=905 to 945 without stretching it. Sad and Happy state entry now updates speech to fit the mood.
+- Four sourced CC0 effects replace existing action WAV contents while retaining GUIDs. Measured durations: Play 1.15 seconds, Study 2.01, Eat 1.83, Sleep 1.26. All are mono 44100 Hz PCM16, non-silent, with peaks below 0.66. All six scenes retain references to these clips. See AUDIO_SOURCES.md for licenses and source files.
+- Runtime compilation and all 14 rule assertions pass. Live Sad positioning and in-game audio listening remain unverified because native app control is unavailable.

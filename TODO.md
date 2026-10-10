@@ -56,3 +56,8 @@
 
 - [x] Animate meter fills and whole-number values toward exact state changes over 1.2 seconds.
 - [ ] Check smooth meter motion in Unity Play mode.
+
+- [x] Correct six bottom-anchored Sad pivots to match the normal foot baseline in every scene.
+- [x] Raise the bubble slightly and give Sad/Happy matching speech.
+- [x] Replace four generic action tunes with sourced CC0 action effects.
+- [ ] Review Sad positioning and listen to the new effects in Unity Play mode.

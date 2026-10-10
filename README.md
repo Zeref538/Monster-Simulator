@@ -67,3 +67,5 @@ Play uses a twelve-frame tail-chasing loop. Refusal uses grounded begging poses 
 High-stamina Sleep requests show six seated begging poses with the bubble "Not yet... please?". Happy/Sad threshold poses retain priority.
 
 Meter fills and whole-number values count toward their targets over about 1.2 seconds. Actual state changes and validation happen immediately; animations use actual state. Wait for meters to settle between recording actions. Passive decay remains exactly 0.01 per second.
+
+Actions now play short toy squeaks (Play), page turns (Study), eating crunches (Eat) and blanket rustles (Sleep). See docs/AUDIO_SOURCES.md for source links and licenses. Sad frames use corrected custom pivots so their feet align with the other animations.
